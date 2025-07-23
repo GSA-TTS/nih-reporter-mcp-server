@@ -1,0 +1,121 @@
+{
+    "meta": {
+        "search_id": "MrUnuWvXWE-8wlzZtN53BA",
+        "total": 7,
+        "offset": 0,
+        "limit": 25,
+        "sort_field": "project_start_date",
+        "sort_order": "desc",
+        "sorted_by_relevance": true,
+        "properties": {
+            "URL": "https:/reporter.nih.gov/search/MrUnuWvXWE-8wlzZtN53BA/projects"
+        }
+    },
+    "results": [
+        {
+            "fiscal_year": 2021,
+            "project_num": "5R35GM133616-03",
+            "activity_code": "R35",
+            "award_amount": 412500,
+            "contact_pi_name": "SGRO, ALLYSON E",
+            "agency_ic_admin": {
+                "code": "GM",
+                "abbreviation": "NIGMS",
+                "name": "National Institute of General Medical Sciences"
+            },
+            "cong_dist": "MA-07",
+            "project_title": "Connecting Single-Cell Signaling Dynamics to Multicellular Decision Making",
+            "agency_code": "NIH"
+        },
+        {
+            "fiscal_year": 2021,
+            "project_num": "3R35GM133616-03S2",
+            "activity_code": "R35",
+            "award_amount": 59087,
+            "contact_pi_name": "SGRO, ALLYSON E",
+            "agency_ic_admin": {
+                "code": "GM",
+                "abbreviation": "NIGMS",
+                "name": "National Institute of General Medical Sciences"
+            },
+            "cong_dist": "MA-07",
+            "project_title": "Connecting Single-Cell Signaling Dynamics to Multicellular Decision Making",
+            "agency_code": "NIH"
+        },
+        {
+            "fiscal_year": 2021,
+            "project_num": "3R35GM133616-03S1",
+            "activity_code": "R35",
+            "award_amount": 150000,
+            "contact_pi_name": "SGRO, ALLYSON E",
+            "agency_ic_admin": {
+                "code": "GM",
+                "abbreviation": "NIGMS",
+                "name": "National Institute of General Medical Sciences"
+            },
+            "cong_dist": "MA-07",
+            "project_title": "Connecting Single-Cell Signaling Dynamics to Multicellular Decision Making",
+            "agency_code": "NIH"
+        },
+        {
+            "fiscal_year": 2019,
+            "project_num": "1R35GM133616-01",
+            "activity_code": "R35",
+            "award_amount": 412500,
+            "contact_pi_name": "SGRO, ALLYSON E",
+            "agency_ic_admin": {
+                "code": "GM",
+                "abbreviation": "NIGMS",
+                "name": "National Institute of General Medical Sciences"
+            },
+            "cong_dist": "MA-07",
+            "project_title": "Connecting Single-Cell Signaling Dynamics to Multicellular Decision Making",
+            "agency_code": "NIH"
+        },
+        {
+            "fiscal_year": 2020,
+            "project_num": "5R35GM133616-02",
+            "activity_code": "R35",
+            "award_amount": 412500,
+            "contact_pi_name": "SGRO, ALLYSON E",
+            "agency_ic_admin": {
+                "code": "GM",
+                "abbreviation": "NIGMS",
+                "name": "National Institute of General Medical Sciences"
+            },
+            "cong_dist": "MA-07",
+            "project_title": "Connecting Single-Cell Signaling Dynamics to Multicellular Decision Making",
+            "agency_code": "NIH"
+        },
+        {
+            "fiscal_year": 2014,
+            "project_num": "5F32GM103062-02",
+            "activity_code": "F32",
+            "award_amount": 53282,
+            "contact_pi_name": "SGRO, ALLYSON E",
+            "agency_ic_admin": {
+                "code": "GM",
+                "abbreviation": "NIGMS",
+                "name": "National Institute of General Medical Sciences"
+            },
+            "cong_dist": "NJ-12",
+            "project_title": "Characterization of single-cell dynamics that lead to collective behaviors",
+            "agency_code": "NIH"
+        },
+        {
+            "fiscal_year": 2013,
+            "project_num": "1F32GM103062-01A1",
+            "activity_code": "F32",
+            "award_amount": 49214,
+            "contact_pi_name": "SGRO, ALLYSON E",
+            "agency_ic_admin": {
+                "code": "GM",
+                "abbreviation": "NIGMS",
+                "name": "National Institute of General Medical Sciences"
+            },
+            "cong_dist": "NJ-12",
+            "project_title": "Characterization of single-cell dynamics that lead to collective behaviors",
+            "agency_code": "NIH"
+        }
+    ]
+}

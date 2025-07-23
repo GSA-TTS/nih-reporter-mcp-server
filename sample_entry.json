@@ -1,0 +1,129 @@
+{
+    "appl_id": 11128875,
+    "subproject_id": null,
+    "fiscal_year": 2024,
+    "project_num": "3R01CA276279-02S1",
+    "project_serial_num": "CA276279",
+    "organization": {
+        "org_name": "MAGEE-WOMEN'S RES INST AND FOUNDATION",
+        "city": null,
+        "country": null,
+        "org_city": "Pittsburgh",
+        "org_country": "UNITED STATES",
+        "org_state": "PA",
+        "org_state_name": null,
+        "dept_type": null,
+        "fips_country_code": null,
+        "org_duns": [
+            "119132785"
+        ],
+        "org_ueis": [
+            "J3Z5MNJJ3FZ4"
+        ],
+        "primary_duns": "119132785",
+        "primary_uei": "J3Z5MNJJ3FZ4",
+        "org_fips": "US",
+        "org_ipf_code": "3840801",
+        "org_zipcode": "152134572",
+        "external_org_id": 3840801
+    },
+    "award_type": "3",
+    "activity_code": "R01",
+    "award_amount": 215041,
+    "is_active": true,
+    "project_num_split": {
+        "appl_type_code": "3",
+        "activity_code": "R01",
+        "ic_code": "CA",
+        "serial_num": "276279",
+        "support_year": "02",
+        "full_support_year": "02S1",
+        "suffix_code": "S1"
+    },
+    "principal_investigators": [
+        {
+            "profile_id": 10814385,
+            "first_name": "Sandra",
+            "middle_name": "",
+            "last_name": "Cascio",
+            "is_contact_pi": true,
+            "full_name": "Sandra  Cascio",
+            "title": ""
+        }
+    ],
+    "contact_pi_name": "CASCIO, SANDRA ",
+    "program_officers": [
+        {
+            "first_name": "LILLIAN",
+            "middle_name": "S",
+            "last_name": "KUO",
+            "full_name": "LILLIAN S KUO"
+        }
+    ],
+    "agency_ic_admin": {
+        "code": "CA",
+        "abbreviation": "NCI",
+        "name": "National Cancer Institute"
+    },
+    "agency_ic_fundings": [
+        {
+            "fy": 2024,
+            "code": "CA",
+            "name": "National Cancer Institute",
+            "abbreviation": "NCI",
+            "total_cost": 215041.0,
+            "direct_cost_ic": 139289.0,
+            "indirect_cost_ic": 75752.0
+        }
+    ],
+    "cong_dist": "PA-12",
+    "spending_categories": [
+        132,
+        3999,
+        564,
+        729,
+        873,
+        5815
+    ],
+    "project_start_date": "2025-04-01T00:00:00",
+    "project_end_date": "2026-03-31T00:00:00",
+    "organization_type": {
+        "name": "Other Domestic Non-Profits",
+        "code": "NP",
+        "is_other": false
+    },
+    "geo_lat_lon": {
+        "lon": -79.96154,
+        "lat": 40.437078
+    },
+    "opportunity_number": "PA-20-272",
+    "full_study_section": {
+        "srg_code": null,
+        "srg_flex": null,
+        "sra_designator_code": null,
+        "sra_flex_code": null,
+        "group_code": null,
+        "name": null
+    },
+    "award_notice_date": "2024-09-04T00:00:00",
+    "is_new": false,
+    "mechanism_code_dc": "RP",
+    "core_project_num": "R01CA276279",
+    "terms": "<Adjuvant><Adjuvant Chemotherapy><Adjuvant Drug Therapy><Antioncogene Protein p53><B7-H1><B7H1><Biology><Black><Black race><Blood granulocytic cell><Body Tissues><Bone Marrow><Bone Marrow Reticuloendothelial System><CD274><CD8 Cell><CD8 T cells><CD8 lymphocyte><CD8+ T cell><CD8+ T-Lymphocyte><CD8-Positive Lymphocytes><CD8-Positive T-Lymphocytes><Cancers><Carcinoma><Caucasian Females><Caucasian Women><Cell Body><Cell Communication and Signaling><Cell Signaling><Cells><Cellular Tumor Antigen P53><Cessation of life><Classification><Collaborations><Combination immunotherapy><Combined Modality Therapy><Data><Death><Development><Disease><Disorder><EGF-Like Domain><Effectiveness><Endometrial Cancer><Endometrial Carcinoma><Endometrium Cancer><Endometrium Carcinoma><Epithelial cancer><Gene Expression Monitoring><Gene Expression Pattern Analysis><Gene Expression Profiling><General Prognostic Factor><Genomics><Granular Leukocytes><Granulocytic cell><Gynecologic Oncologist><Human><Immune><Immune mediated therapy><Immunes><Immunologically Directed Therapy><Immunomodulation><Immunosuppression><Immunosuppression Effect><Immunosuppressive Effect><Immunotherapy><Incidence><Infiltration><Innate Immune Response><Intracellular Communication and Signaling><Macrophage><Malignant Cell><Malignant Epithelial Neoplasms><Malignant Epithelial Tumors><Malignant Neoplasm of the Uterus><Malignant Neoplasms><Malignant Ovarian Neoplasm><Malignant Ovarian Tumor><Malignant Tumor><Malignant Tumor of the Ovary><Malignant Tumor of the Uterus><Malignant Uterine Neoplasm><Malignant Uterine Tumor><Malignant neoplasm of ovary><Mice><Mice Mammals><Modern Man><Molecular><Multimodal Therapy><Multimodal Treatment><Murine><Mus><Mutate><Myeloid Cells><Myeloid-derived suppressor cells><M\u03c6><Oncoprotein p53><Operative Procedures><Operative Surgical Procedures><Ovary Cancer><P53><PD-L1><PDL-1><PDL1><Pathologist><Patients><Phenotype><Phosphoprotein P53><Phosphoprotein pp53><Prognostic Factor><Prognostic/Survival Factor><Programmed Cell Death 1 Ligand 1><Programmed Death Ligand 1><Prospective Studies><Protein TP53><Recombinant Proteins><Research Specimen><Retrospective Studies><Role><SYK><SYK gene><Sampling><Serous><Signal Transduction><Signal Transduction Systems><Signaling><Spatial Distribution><Specimen><Spleen Tyrosine Kinase><Surgical><Surgical Interventions><Surgical Procedure><Survival Rate><Systematics><T-Cells><T-Lymphocyte><T8 Cells><T8 Lymphocytes><TP53><TP53 gene><TRP53><Testing><Therapeutic><Tissue Sample><Tissues><Transcript Expression Analyses><Transcript Expression Analysis><Transgenic Mice><Tumor Cell><Tumor Immunity><Tumor Protein p53><Tumor Protein p53 Gene><Tumor-Secreted Protein><Tumor-associated macrophages><Tumor-infiltrating immune cells><Tyrosine-Protein Kinase SYK><Uterine Cancer><Uterus><Uterus Cancer><White Females><White Women><Work><adaptive immune response><analyze gene expression><anti-tumor immune response><anti-tumor immunity><antitumor immunity><biological signal transduction><black female><black women><cancer cell><cancer immunity><cancer microenvironment><cancer type><combination therapy><combinatorial immunotherapy><combined modality treatment><combined treatment><determine efficacy><developmental><dual immunotherapy><efficacy analysis><efficacy assessment><efficacy determination><efficacy evaluation><efficacy examination><epithelial carcinoma><evaluate efficacy><examine efficacy><gene expression analysis><gene expression assay><granulocyte><immune cell infiltration of tumors><immune cells infiltrating the tumor><immune cells that infiltrate the tumor><immune microenvironment><immune modulation><immune regulation><immune suppression><immune suppressive activity><immune suppressive function><immune therapeutic approach><immune therapeutic interventions><immune therapeutic regimens><immune therapeutic strategy><immune therapy><immune-based therapies><immune-based treatments><immuno therapy><immunologic reactivity control><immunomodulatory><immunoregulation><immunoregulatory><immunosuppressive activity><immunosuppressive function><immunosuppressive microenvironment><immunosuppressive myeloid cells><immunosuppressive response><immunosuppressive tumor microenvironment><improved><infiltration of tumors by immune cells><inhibitor><interest><intratumoral immune cell><intratumoral immune infiltrate><malignancy><mouse model><multi-modal therapy><multi-modal treatment><murine model><myeloid suppressor cells><myeloid-derived suppressive cells><neoplasm/cancer><neoplastic cell><neutralizing antibody><ovarian cancer><overexpress><overexpression><p53 Antigen><p53 Genes><p53 Tumor Suppressor><programmed cell death ligand 1><programmed cell death protein ligand 1><protein death-ligand 1><protein p53><recruit><response><scRNA-seq><single cell RNA-seq><single cell RNAseq><single cell expression profiling><single cell transcriptomic profiling><single-cell RNA sequencing><social role><standard of care><success><suppressive myeloid cells><surgery><thymus derived lymphocyte><trafficking><transcriptional profiling><treatment strategy><tumor><tumor growth><tumor immune cell><tumor immune infiltrate><tumor immune microenvironment><tumor infiltration of immune cells><tumor microenvironment><tumor-immune system interactions><tumorigenic><womb>",
+    "pref_terms": "Adjuvant;Adjuvant Chemotherapy;Biology;Black race;Bone Marrow;CD8-Positive T-Lymphocytes;Carcinoma;Cells;Cessation of life;Classification;Collaborations;Combination immunotherapy;Combined Modality Therapy;Data;Development;Disease;EGF-Like Domain;Effectiveness;Endometrial Carcinoma;Gene Expression Profiling;Genomics;Gynecologic Oncologist;Human;Immune;Immunosuppression;Immunotherapy;Incidence;Infiltration;Innate Immune Response;Macrophage;Malignant Neoplasms;Malignant neoplasm of ovary;Molecular;Mus;Mutate;Myeloid Cells;Myeloid-derived suppressor cells;Operative Surgical Procedures;Pathologist;Patients;Phenotype;Prognostic Factor;Prospective Studies;Recombinant Proteins;Retrospective Studies;Role;SYK gene;Sampling;Serous;Signal Transduction;Spatial Distribution;Specimen;Survival Rate;T-Lymphocyte;TP53 gene;Testing;Therapeutic;Tissue Sample;Tissues;Transgenic Mice;Tumor Immunity;Tumor-Secreted Protein;Tumor-associated macrophages;Tumor-infiltrating immune cells;Uterine Cancer;Uterus;White Women;Work;adaptive immune response;anti-tumor immune response;black women;cancer cell;cancer type;efficacy evaluation;granulocyte;immunoregulation;improved;inhibitor;interest;mouse model;neoplastic cell;neutralizing antibody;overexpression;programmed cell death ligand 1;recruit;response;single-cell RNA sequencing;standard of care;success;trafficking;treatment strategy;tumor;tumor growth;tumor microenvironment;tumor-immune system interactions;tumorigenic",
+    "abstract_text": "This application is being submitted in response to the Notice of Special Interest (NOSI) identified as NOT-CA-\n24-044.\nUterine serous carcinomas (USC) represent 10% of endometrial cancers (EC) but account for nearly 40% of\ndeaths from the disease. This disproportionate difference between incidence and death emphasizes the need to\nimprove treatment strategies. One new potential therapeutical approach is the immunotherapy which can induce\na dramatic and durable tumor regression across several cancer types, including other subtypes of EC, but has\nyet to have success in the treatment of USC. Characterization of the immune tumor microenvironment (TME) is\na prerequisite for the selection of the optimal immunotherapy combinations. Emerging data show that USC\ntissues are characterized by a high number of myeloid cells, including M2-like tumor associated macrophages\n(TAM) and granulocytic myeloid derived suppressor cells (G-MDSC). However, little is known about the tumor\nsecreted factors that induce the TAM and G-MDSC recruitment and modulate their functional activities in USC.\nWe have identified EGFL6 (EGF like domain multiple 6) as a new factor regulating the recruitment and functions\nof TAM and G-MDSC in the HGSOC and potentially the USC TME. Egfl6 is highly expressed in uterine cancer,\nincluding USC. Mice overexpressing Egfl6 have an increased numbers of bone marrow (BM) G-MDSC and\ndevelop spontaneous tumors in the uterus. Treatment with recombinant protein Egfl6 of BM derived myeloid cells\nwas associated with an increase Syk activation and promoted differentiation of G-MDSCs towards an\nimmunosuppressive phenotype. Moreover, tumor expression of Egfl6 enhanced tumor growth and increased\ntumor infiltration of G-MDSC and M2-like TAM. Furthermore, combined treatment of a-Egfl6 and a-PD-L1\nreduced numbers of pro-tumorigenic TAM and G-MDSC resulting in survival rate prolongation of serous ovarian\ncancer bearing mice. Furthermore, SYK is highly expressed in human USC tissue samples. We hypothesize\nthat Egfl6, via Syk activation, induces the recruitment of TAM and G-MDSC and enhances their\nimmunosuppressive phenotype resulting in the inhibition of anti-tumor immune response. To test our\nhypothesis, we propose: SA1. To determine the role of Egfl6/Syk axis in TAM and G-MDSC infiltrating USC.\nUsing a syngeneic mouse model of USC, we will use R788, a potent Syk inhibitor, to determine the role of Syk\nin the Egfl6-dependent regulatory axis controlling TAM and G-MDSC. We will also evaluate the impact of a-\nEgfl6 or R788 in combination with a-PDL1 on anti-tumor immunity in USC. SA2. To evaluate Egfl6 expression\nand the immune TME in USC patients. The characterization of the immune TME can help to make substantial\nprogress in the identification of the likelihood of response to immunotherapies. We will evaluate 1) EGFL6 and\nSYK expression, and 2) the abundance and phenotype of tumor infiltrating immune cells. Because USC is more\ncommon in Black vs White women, we will also compare the immune USC TME of Black vs White Women.",
+    "project_title": "The Role of Egfl6 in Tumor Immunity",
+    "phr_text": "The uterine serous cancer (USC) tumor microenviroment is characterized by large numbers of\nimmunosuppressive myeloid cells that might reduce the effectiveness of current immunotherapies. Our data\nsuggest that Egfl6, a protein secreted by tumor cells, induces the activaction of Syk factor in myeloid cells\npromoting their immunosuppressive phenotype. In this study, we will determine the role of Egfl6/Syk axis in\nUSC and evaluate the efficacy of Egfl6 and/or Syk inhibition as an adjuvant to immunotherapy.",
+    "spending_categories_desc": "Cancer; Immunotherapy; Ovarian Cancer; Rare Diseases; Uterine Cancer; Women's Health Research",
+    "agency_code": "NIH",
+    "covid_response": null,
+    "arra_funded": "N",
+    "budget_start": "2025-04-01T00:00:00",
+    "budget_end": "2026-03-31T00:00:00",
+    "cfda_code": "396",
+    "funding_mechanism": "Non-SBIR/STTR",
+    "direct_cost_amt": 139289,
+    "indirect_cost_amt": 75752,
+    "project_detail_url": "https://reporter.nih.gov/project-details/11128875",
+    "date_added": "2025-04-05T16:11:56"
+}
