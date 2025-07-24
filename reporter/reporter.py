@@ -1,7 +1,7 @@
-import httpx
 from mcp.server.fastmcp import FastMCP
 import requests 
 import asyncio 
+from utils import clean_json 
 
 # Initialize FastMCP server
 mcp = FastMCP("reporter")
@@ -106,12 +106,15 @@ async def advanced_term_search(search_term: str = "",
         "criteria": search_criteria,
         "offset": 0,
         "limit": 25,
-        "include_fields": ["ProjectTitle","FiscalYear","ContactPiName","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount"],
+        "include_fields": ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"],
         "sort_field": "project_start_date",
         "sort_order": "desc"
     }
     
-    return await search_nih_reporter(payload)
+    response = await search_nih_reporter(payload)
+
+    return clean_json(response)
+
 
 
 if __name__ == "__main__":

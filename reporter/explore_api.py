@@ -1,5 +1,6 @@
 import requests 
 import json 
+from utils import clean_json
 
 def make_query(payload):
 
@@ -27,22 +28,25 @@ search_criteria = {
         "search_field": "terms",
         "search_text": ""
     },
-    "fiscal_years": [],
-    "agencies": [],
-    "org_names": [],
-    "pi_names": [{"any_name": "Allyson Sgro"}],
+    "fiscal_years": [2024],
+    "agencies": [""],
+    "org_names": ["University of California, San Francisco"],
+    "pi_names": [{"any_name": ""}],
 }
 
 payload = {
     "criteria": search_criteria,
     "offset": 0,
-    "limit": 25,
-    "include_fields": ["ProjectTitle","FiscalYear","ContactPiName","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount"],
+    "limit": 500,
+    "include_fields": ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"],
     "sort_field": "project_start_date",
     "sort_order": "desc"
 }
 
 response = make_query(payload)
+
+response = clean_json(response)
+
 # export to JSON file 
 with open('response.json', 'w') as f:
     json.dump(response, f, indent=4)
