@@ -1,7 +1,7 @@
 from mcp.server.fastmcp import FastMCP
 import requests 
 import asyncio 
-from utils import clean_json 
+from utils import clean_json, form_search_criteria
 
 # Initialize FastMCP server
 mcp = FastMCP("reporter")
@@ -11,9 +11,7 @@ async def search_nih_reporter(payload):
     Search NIH Reporter API for grant information
     
     Args:
-        criteria (dict): Search criteria
-        offset (int): Starting position for results
-        limit (int): Number of results to return (max 500)
+        payload (dict): Search criteria
     
     Returns:
         dict: API response containing grant data
@@ -40,10 +38,10 @@ async def search_nih_reporter(payload):
 
 @mcp.tool()
 async def advanced_term_search(search_term: str = "", 
-                               years: list = None, 
-                               agencies: list[str] = ["NIH"],
-                               organizations: str = None,
-                               pi_name: str = None):
+                               years: list[int] | None = None, 
+                               agencies: list[str] | None = None,
+                               organizations: list[str] | None = None,
+                               pi_name: str | None = None):
     """
     Tool to perform an advanced search of the NIH RePORTER based on a given search term.
     
@@ -90,17 +88,13 @@ async def advanced_term_search(search_term: str = "",
         dict: API response containing grant data
     """
     
-    search_criteria = {
-        "advanced_text_search": {
-            "operator": "advanced",
-            "search_field": "terms",
-            "search_text": search_term
-        },
-        "fiscal_years": years if years else [],
-        "agencies": agencies if agencies else [], 
-        "org_names": organizations if organizations else [],
-        "pi_names": [{"any_name": pi_name}] if pi_name else [{"any_name": ""}],
-    }
+    search_criteria = form_search_criteria(
+        search_term=search_term,
+        agencies=agencies, 
+        years=years,
+        organizations=organizations, 
+        pi_name=pi_name
+    )
 
     payload = {
         "criteria": search_criteria,

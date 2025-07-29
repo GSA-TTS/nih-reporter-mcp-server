@@ -1,6 +1,6 @@
 import requests 
 import json 
-from utils import clean_json
+from utils import clean_json, form_search_criteria
 
 def make_query(payload):
 
@@ -22,17 +22,13 @@ def make_query(payload):
         print(f"Error making API request: {e}")
         return None
 
-search_criteria = {
-    "advanced_text_search": {
-        "operator": "advanced",
-        "search_field": "terms",
-        "search_text": ""
-    },
-    "fiscal_years": [2024],
-    "agencies": [""],
-    "org_names": ["University of California, San Francisco"],
-    "pi_names": [{"any_name": ""}],
-}
+search_criteria = form_search_criteria(
+    search_term="",
+    years=[2021],
+    agencies=[""],
+    organizations=[""],
+    pi_name="Andrew Coe"
+)
 
 payload = {
     "criteria": search_criteria,

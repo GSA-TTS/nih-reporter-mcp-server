@@ -25,3 +25,28 @@ def clean_json(response):
             project['principal_investigators'] = [pi['full_name'] for pi in project['principal_investigators']]
 
     return response 
+
+def form_search_criteria(search_term=None, years=None, agencies=None, organizations=None, pi_name=None):
+    """
+    Forms search criteria for NIH RePORTER API based on provided parameters.
+    """
+
+    search_criteria = {}
+
+    # Set search criteria based on provided parameters
+    if search_term:
+        search_criteria["advanced_text_search"] = {
+            "operator": "advanced",
+            "search_field": "terms",
+            "search_text": search_term
+        }
+    if years:
+        search_criteria["fiscal_years"] = years
+    if agencies:
+        search_criteria["agencies"] = agencies
+    if organizations:
+        search_criteria["org_names"] = organizations
+    if pi_name:
+        search_criteria["pi_names"] = [{"any_name": pi_name}]
+    
+    return search_criteria
