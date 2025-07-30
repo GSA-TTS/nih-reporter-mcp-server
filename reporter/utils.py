@@ -50,3 +50,21 @@ def form_search_criteria(search_term=None, years=None, agencies=None, organizati
         search_criteria["pi_names"] = [{"any_name": pi_name}]
     
     return search_criteria
+
+def get_total_amount(response):
+    """
+    Calculates the total award amount from the API response.
+
+    Args:
+        response (dict): JSON response from the NIH RePORTER API
+
+    Returns:
+        float: Total award amount
+    """
+    
+    if not response or 'results' not in response:
+        return 0.0
+    
+    total_amount = sum(project.get('award_amount', 0) for project in response['results'])
+    
+    return str(total_amount)
