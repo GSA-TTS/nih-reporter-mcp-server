@@ -1,6 +1,5 @@
 import requests 
 import json 
-import pandas as pd 
 from utils import clean_json, form_search_criteria, get_total_amount
 
 def make_query(payload):
@@ -47,7 +46,7 @@ def term_search():
     response = clean_json(response)
 
     # export to JSON file 
-    with open('response.json', 'w') as f:
+    with open('test_responses/response.json', 'w') as f:
         json.dump(response, f, indent=4)
 
 def funding_by_agency_search():
@@ -74,17 +73,5 @@ def funding_by_agency_search():
         json.dump(response, f, indent=4)
 
     print("Total Award Amount:", get_total_amount(response))
-
-    # # convert json into a dataframe 
-    # df = pd.json_normalize(response['results'])
-
-    # # sum award amount 
-    # total_funding = df['award_amount'].sum()
-
-    # # add total funding to the dataframe
-    # df = df._append({'project_num': 'Total Funding', 'award_amount': total_funding}, ignore_index=True)
-
-    # # export to CSV file
-    # df.to_csv('test_responses/search_response.csv', index=False)
 
 funding_by_agency_search()

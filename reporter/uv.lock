@@ -444,6 +444,7 @@ dependencies = [
     { name = "httpx" },
     { name = "mcp", extra = ["cli"] },
     { name = "pandas" },
+    { name = "pydantic" },
     { name = "requests" },
 ]
 
@@ -453,6 +454,7 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.12.1" },
     { name = "pandas", specifier = ">=2.3.1" },
+    { name = "pydantic", specifier = ">=2.11.7" },
     { name = "requests", specifier = ">=2.32.4" },
 ]
 
