@@ -2,7 +2,7 @@ from mcp.server.fastmcp import FastMCP
 import requests 
 import asyncio 
 from utils import clean_json, form_search_criteria, get_total_amount
-from models.reporter_models import SearchParams
+from reporter.models import SearchParams
 
 # Initialize FastMCP server
 mcp = FastMCP("reporter")
