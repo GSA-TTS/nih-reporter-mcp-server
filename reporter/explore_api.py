@@ -1,7 +1,7 @@
 import requests 
 import json 
 from utils import clean_json, form_search_criteria, get_total_amount
-from models.reporter_models import SearchParams
+from models.reporter_models import SearchParams, AdvancedTextSearch
 
 def make_query(payload):
 
@@ -26,11 +26,17 @@ def make_query(payload):
 def term_search():
 
     search_params = SearchParams(
-        search_term='Artificial intelligence for protein docking',
-        years=[2022],
+        advanced_text_search=AdvancedTextSearch(
+            search_text="egf receptor cell migration",
+            search_field=["projecttitle","terms"],
+            operator="or",
+        ),
+        years=[2016]
     )
 
     params_dict = search_params.to_api_criteria()
+
+    print(params_dict)
 
     payload = {
         "criteria": params_dict,
