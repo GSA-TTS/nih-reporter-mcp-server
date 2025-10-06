@@ -1,6 +1,7 @@
 import requests 
 import json 
 from utils import clean_json, form_search_criteria, get_total_amount
+from models.reporter_models import SearchParams
 
 def make_query(payload):
 
@@ -24,18 +25,17 @@ def make_query(payload):
 
 def term_search():
 
-    search_criteria = form_search_criteria(
-        search_term="",
-        years=[2018],
-        agencies=["NIAID"],
-        organizations=["Johns Hopkins University"],
-        pi_name=""
+    search_params = SearchParams(
+        search_term='Artificial intelligence for protein docking',
+        years=[2022],
     )
 
+    params_dict = search_params.to_api_criteria()
+
     payload = {
-        "criteria": search_criteria,
+        "criteria": params_dict,
         "offset": 0,
-        "limit": 500,
+        "limit": 50,
         "include_fields": ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"],
         "sort_field": "project_start_date",
         "sort_order": "desc"
@@ -46,7 +46,7 @@ def term_search():
     response = clean_json(response)
 
     # export to JSON file 
-    with open('test_responses/response.json', 'w') as f:
+    with open('reporter/test_responses/response.json', 'w') as f:
         json.dump(response, f, indent=4)
 
 def funding_by_agency_search():
@@ -74,4 +74,4 @@ def funding_by_agency_search():
 
     print("Total Award Amount:", get_total_amount(response))
 
-funding_by_agency_search()
+term_search()

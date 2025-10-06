@@ -47,17 +47,9 @@ async def advanced_term_search(search_params: SearchParams):
     Returns:
         dict: API response containing grant data
     """
-    
-    search_criteria = form_search_criteria(
-        search_term=search_params.search_term,
-        agencies=search_params.agencies, 
-        years=search_params.years,
-        organizations=search_params.organizations, 
-        pi_name=search_params.pi_name
-    )
 
     payload = {
-        "criteria": search_criteria,
+        "criteria": search_params.to_api_criteria(),
         "offset": 0,
         "limit": 25,
         "include_fields": ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"],

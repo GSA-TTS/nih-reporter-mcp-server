@@ -86,3 +86,27 @@ class SearchParams(BaseModel):
     agencies: Optional[List[NIHAgency]] = Field([NIHAgency.NIH], description="the agency providing funding for the grant")
     organizations: Optional[List[str]] = None
     pi_name: Optional[str] = None
+
+    def to_api_criteria(self):
+        """Convert to API criteria format"""
+        criteria = {}
+        
+        # Transform search_term into advanced_text_search
+        if self.search_term:
+            criteria["advanced_text_search"] = {
+                "operator": "advanced",
+                "search_field": "terms",
+                "search_text": self.search_term
+            }
+        
+        # Add other filters
+        if self.years:
+            criteria["fiscal_years"] = self.years
+        if self.agencies:
+            criteria["agencies"] = [a.value if hasattr(a, 'value') else a for a in self.agencies]
+        if self.organizations:
+            criteria["organizations"] = self.organizations
+        if self.pi_name:
+            criteria["pi_names"] = [{"any_name": self.pi_name}]
+        
+        return criteria
