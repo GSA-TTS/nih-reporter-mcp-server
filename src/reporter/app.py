@@ -1,10 +1,9 @@
 from fastmcp import FastMCP
 import requests 
 import asyncio 
-from src.reporter.utils import clean_json, form_search_criteria, get_total_amount
-from src.reporter.models import SearchParams
+from reporter.utils import clean_json, form_search_criteria, get_total_amount
+from reporter.models import SearchParams
 from starlette.responses import JSONResponse
-
 
 # Initialize FastMCP server
 mcp = FastMCP("reporter",stateless_http=True)

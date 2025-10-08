@@ -1,7 +1,7 @@
 import requests 
 import json 
-from ..utils import clean_json, form_search_criteria, get_total_amount
-from ..models import SearchParams, AdvancedTextSearch
+from src.reporter.utils import clean_json, form_search_criteria, get_total_amount
+from src.reporter.models import SearchParams, AdvancedTextSearch
 
 def make_query(payload):
 
