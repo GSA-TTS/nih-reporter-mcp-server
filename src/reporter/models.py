@@ -165,22 +165,22 @@ class SearchParams(BaseModel):
             ats = self.advanced_text_search
             sf = ats.search_field
 
-        # Normalize to the comma-separated string the API expects
-        if isinstance(sf, list):
-            search_field_str = ", ".join(
-                s.value if isinstance(s, SearchField) else str(s) for s in sf
-            )
-        elif isinstance(sf, SearchField):
-            search_field_str = sf.value
-        else:
-            # Already a string (or something else) — use as-is
-            search_field_str = str(sf)
+            # Normalize to the comma-separated string the API expects
+            if isinstance(sf, list):
+                search_field_str = ", ".join(
+                    s.value if isinstance(s, SearchField) else str(s) for s in sf
+                )
+            elif isinstance(sf, SearchField):
+                search_field_str = sf.value
+            else:
+                # Already a string (or something else) — use as-is
+                search_field_str = str(sf)
 
-        criteria["advanced_text_search"] = {
-            "search_text": ats.search_text,
-            "search_field": search_field_str,
-            "operator": ats.operator.value
-        }
+            criteria["advanced_text_search"] = {
+                "search_text": ats.search_text,
+                "search_field": search_field_str,
+                "operator": ats.operator.value
+            }
 
         # Add other filters
         if self.years:

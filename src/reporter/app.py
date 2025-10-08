@@ -1,8 +1,10 @@
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 import requests 
 import asyncio 
-from utils import clean_json, form_search_criteria, get_total_amount
+from reporter.utils import clean_json, form_search_criteria, get_total_amount
 from reporter.models import SearchParams
+from starlette.responses import JSONResponse
+
 
 # Initialize FastMCP server
 mcp = FastMCP("reporter")
@@ -128,7 +130,19 @@ async def funding_by_organization(organizations: list[str] | None = None,
 
     return get_total_amount(response)
 
+@mcp.custom_route("/health", methods=["GET"])
+async def health_check(request):
+    return JSONResponse({"status": "healthy", "service": "mcp-server"})
 
-if __name__ == "__main__":
-    # Initialize and run the server
-    mcp.run(transport='stdio')
+# Run the server with stdio transport for local testing
+# if __name__ == "__main__":
+#     # Initialize and run the server
+#     mcp.run(transport='stdio')
+
+# Run the server with HTTP transport for external access
+# if __name__ == "__main__":
+#     mcp.run(transport="http", host="0.0.0.0", port=8000)
+
+app = mcp.http_app()
+
+
