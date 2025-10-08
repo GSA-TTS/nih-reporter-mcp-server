@@ -1,8 +1,8 @@
 from fastmcp import FastMCP
 import requests 
 import asyncio 
-from .utils import clean_json, form_search_criteria, get_total_amount
-from .models import SearchParams
+from src.reporter.utils import clean_json, form_search_criteria, get_total_amount
+from src.reporter.models import SearchParams
 from starlette.responses import JSONResponse
 
 
