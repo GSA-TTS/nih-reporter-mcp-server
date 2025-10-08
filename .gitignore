@@ -8,3 +8,8 @@ tests/*
 # ignore egg-info files 
 src/reporter.egg-info/
 
+# ignore secrets
+secrets/
+
+# ignore scripts 
+scripts/
