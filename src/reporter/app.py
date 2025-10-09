@@ -1,47 +1,15 @@
 from fastmcp import FastMCP
-import requests 
-import asyncio 
-from reporter.utils import clean_json, form_search_criteria, get_total_amount
-from reporter.models import SearchParams
+from reporter.utils import clean_json, form_search_criteria, get_total_amount, search_nih_reporter
+from reporter.models import SearchParams, ProjectNum
 from starlette.responses import JSONResponse
 
 # Initialize FastMCP server
 mcp = FastMCP("reporter",stateless_http=True)
 
-async def search_nih_reporter(payload):
-    """
-    Search NIH Reporter API for grant information
-    
-    Args:
-        payload (dict): Search criteria
-    
-    Returns:
-        dict: API response containing grant data
-    """
-    
-    # NIH Reporter API endpoint
-    url = "https://api.reporter.nih.gov/v2/projects/search"
-    
-    try:
-        # Run the synchronous requests call in a thread pool
-        response = await asyncio.to_thread(
-            requests.post, 
-            url, 
-            json=payload,
-            headers={'Content-Type': 'application/json'}
-        )
-        response.raise_for_status()  # Raise an exception for bad status codes
-        
-        return response.json()
-    
-    except requests.exceptions.RequestException as e:
-        print(f"Error making API request: {e}")
-        return None
-
 @mcp.tool()
-async def advanced_term_search(search_params: SearchParams):
+async def project_text_search(search_params: SearchParams):
     """
-    Tool to perform an advanced search of the NIH RePORTER based on a given search term.
+    Tool to perform an advanced text search of the NIH RePORTER based on a given search string.
     
     Args:
         search_params (SearchParams): Search parameters including search term, years, agencies, organizations, and pi_name.
@@ -128,6 +96,31 @@ async def funding_by_organization(organizations: list[str] | None = None,
     response = await search_nih_reporter(payload)
 
     return get_total_amount(response)
+
+@mcp.tool()
+async def get_project_details(project_num: ProjectNum):
+    """
+    Tool to get detailed information about a specific project using its project number.
+    
+    Args:
+        project_num (ProjectNum): The unique identifier for the project (e.g., "1F32DK109635-01A1").
+    
+    Returns:
+        dict: API response containing detailed project information
+    """
+
+    payload = {
+        "criteria": {
+            "project_nums": [project_num]
+        },
+        "offset": 0,
+        "limit": 10,
+        "sort_field": "project_start_date",
+        "sort_order": "desc"
+    }
+
+    return await search_nih_reporter(payload)
+
 
 @mcp.custom_route("/health", methods=["GET"])
 async def health_check(request):

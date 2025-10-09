@@ -1,3 +1,6 @@
+import requests 
+import asyncio 
+
 def clean_json(response):
     """
     Cleans JSON response by simplyfing fields with subfields. 
@@ -68,3 +71,33 @@ def get_total_amount(response):
     total_amount = sum(project.get('award_amount', 0) for project in response['results'])
     
     return str(total_amount)
+
+async def search_nih_reporter(payload):
+    """
+    Search NIH Reporter API for grant information
+    
+    Args:
+        payload (dict): Search criteria
+    
+    Returns:
+        dict: API response containing grant data
+    """
+    
+    # NIH Reporter API endpoint
+    url = "https://api.reporter.nih.gov/v2/projects/search"
+    
+    try:
+        # Run the synchronous requests call in a thread pool
+        response = await asyncio.to_thread(
+            requests.post, 
+            url, 
+            json=payload,
+            headers={'Content-Type': 'application/json'}
+        )
+        response.raise_for_status()  # Raise an exception for bad status codes
+        
+        return response.json()
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Error making API request: {e}")
+        return None
