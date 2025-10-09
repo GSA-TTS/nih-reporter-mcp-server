@@ -165,6 +165,68 @@ class ProjectNum(BaseModel):
         
         return v.upper()  # Normalize to uppercase
 
+class StateCode(str, Enum):
+    AL = "AL"
+    AK = "AK"
+    AZ = "AZ"
+    AR = "AR"
+    CA = "CA"
+    CO = "CO"
+    CT = "CT"
+    DE = "DE"
+    FL = "FL"
+    GA = "GA"
+    HI = "HI"
+    ID = "ID"
+    IL = "IL"
+    IN = "IN"
+    IA = "IA"
+    KS = "KS"
+    KY = "KY"
+    LA = "LA"
+    ME = "ME"
+    MD = "MD"
+    MA = "MA"
+    MI = "MI"
+    MN = "MN"
+    MS = "MS"
+    MO = "MO"
+    MT = "MT"
+    NE = "NE"
+    NV = "NV"
+    NH = "NH"
+    NJ = "NJ"
+    NM = "NM"
+    NY = "NY"
+    NC = "NC"
+    ND = "ND"
+    OH = "OH"
+    OK = "OK"
+    OR = "OR"
+    PA = "PA"
+    RI = "RI"
+    SC = "SC"
+    SD = "SD"
+    TN = "TN"
+    TX = "TX"
+    UT = "UT"
+    VT = "VT"
+    VA = "VA"
+    WA = "WA"
+    WV = "WV"
+    WI = "WI"
+    WY = "WY"
+    DC = "DC"
+    PR = "PR"
+    VI = "VI"
+    GU = "GU"
+    AS = "AS"
+    MP = "MP"
+    FM = "FM"
+    MH = "MH"
+    PW = "PW"
+    
+
 class SearchParams(BaseModel):
     # optional filters  
     advanced_text_search: Optional[AdvancedTextSearch] = Field(None, description="text search string and search parameters")
@@ -173,6 +235,7 @@ class SearchParams(BaseModel):
     organizations: Optional[List[str]] = Field(None, description="List of organization names who received funding (e.g. ['Johns Hopkins University'])")
     pi_name: Optional[str] = Field(None, description="Name of the grant's principal investigator (e.g. 'Allyson Sgro')")
     project_nums: Optional[List[ProjectNum]] = Field(None, description="Unique project identifier(s) assigned by NIH RePORTER (e.g. '1F32AG052995-01A1')")
+    org_states: Optional[List[StateCode]] = Field(None, description="Organization state")
 
     def to_api_criteria(self):
         """Convert to API criteria format"""
@@ -211,6 +274,8 @@ class SearchParams(BaseModel):
             criteria["pi_names"] = [{"any_name": self.pi_name}]
         if self.project_nums:
             criteria["project_nums"] = [a.project_num for a in self.project_nums]
+        if self.org_states:
+            criteria["org_states"] = [a.value if hasattr(a, 'value') else a for a in self.org_states]
         
         return criteria
     

@@ -23,7 +23,7 @@ def register_tools(mcp):
     @mcp.tool()
     async def get_all_projects_by_ic(search_params: SearchParams):
         """
-            Tool to get an exhaustive list of projects funded by a specific NIH institute or center (IC) in a given year.
+            Tool to get an exhaustive list of projects for specific search critiera (such as NIH institute or center (IC) in a given year).
             
             Args:
                 search_params (SearchParams): Search parameters including years, agencies

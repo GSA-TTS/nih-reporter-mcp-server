@@ -24,7 +24,7 @@ def term_search():
     with open('tests/test_responses/response.json', 'w') as f:
         json.dump(response, f, indent=4)
 
-term_search()
+# term_search()
 
 def funding_by_agency_search():
 
@@ -68,11 +68,12 @@ def get_all_projects():
     
     # set query parameters 
     search_params = SearchParams(
-        years=[2018], 
-        agencies=["NIMHD"],
+        org_states=["AS"],
     )
     limit = 500
-    include_fields = ["ProjectNum","AwardAmount"]
+    include_fields = ["ProjectNum","Organization"]
+
+
 
     # get all responses
     response = get_all_responses(search_params, include_fields, limit)
@@ -81,4 +82,4 @@ def get_all_projects():
     with open('tests/test_responses/all_projects.json', 'w') as f:
         json.dump(response, f, indent=4)
     
-# get_all_projects()
+get_all_projects()

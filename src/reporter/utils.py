@@ -16,9 +16,11 @@ def clean_json(response):
     # simply JSON response 
     for project in response.get('results', []):
         
-        # keep only the first part of the organization name
+        # keep only the organization name and the state
         if project.get('organization'):
-            project['organization'] = project['organization']['org_name']
+            project['org_name'] = project['organization']['org_name']
+            project['org_state'] = project['organization']['org_state']
+            del project['organization']
         
         # keep only the first part of the agency name
         if project.get('agency_ic_admin'):
