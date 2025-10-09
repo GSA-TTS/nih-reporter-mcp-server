@@ -1,6 +1,7 @@
 import json 
-from reporter.utils import get_all_responses, get_total_amount
+from api_utils import get_all_responses
 from reporter.models import SearchParams, AdvancedTextSearch, ProjectNum
+from reporter.utils import get_total_amount
 
 def term_search():
 
@@ -9,7 +10,7 @@ def term_search():
         advanced_text_search=AdvancedTextSearch(
             search_text="egf receptor",
             search_field=["projecttitle"],
-            operator="and",
+            operator="all",
         ),
         years=[2016],
     )

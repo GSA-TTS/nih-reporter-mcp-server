@@ -17,25 +17,12 @@ async def project_text_search(search_params: SearchParams):
         dict: API response containing grant data
     """
 
-    # payload = {
-    #     "criteria": search_params.to_api_criteria(),
-    #     "offset": 0,
-    #     "limit": 25,
-    #     "include_fields": ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"],
-    #     "sort_field": "project_start_date",
-    #     "sort_order": "desc"
-    # }
-    
-    # response = await search_nih_reporter(payload)
-
-    # return clean_json(response)
-
+    # Set query parameters
     limit = 50 
     include_fields = ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"]
 
-    response = await get_all_responses(search_params, include_fields, limit)
-    
-    return response 
+    # Call the API 
+    return await get_all_responses(search_params, include_fields, limit)
 
 
 @mcp.tool()
@@ -50,42 +37,31 @@ async def funding_by_organization(search_params: SearchParams):
             dict: API response containing grant data
         """
 
-    payload = {
-        "criteria": search_params.to_api_criteria(),
-        "offset": 0,
-        "limit": 500,
-        "include_fields": ["AwardAmount"],
-        "sort_field": "project_start_date",
-        "sort_order": "desc"
-    }
+    # Set query parameters 
+    limit = 500
+    include_fields = ["ProjectNum","AwardAmount"]
 
-    response = await search_nih_reporter(payload)
+    # Call the API 
+    response = await get_all_responses(search_params, include_fields, limit)
 
     return get_total_amount(response)
 
 @mcp.tool()
-async def get_project_details(project_num: ProjectNum):
+async def get_project_details(search_params: SearchParams):
     """
     Tool to get detailed information about a specific project using its project number.
     
     Args:
-        project_num (ProjectNum): The unique identifier for the project (e.g., "1F32DK109635-01A1").
-    
+        search_params (SearchParams): Search parameters including years, agencies, organizations, and pi_name.
+            
     Returns:
         dict: API response containing detailed project information
     """
 
-    payload = {
-        "criteria": {
-            "project_nums": [project_num]
-        },
-        "offset": 0,
-        "limit": 10,
-        "sort_field": "project_start_date",
-        "sort_order": "desc"
-    }
+    limit = 10 
+    include_fields = None 
 
-    return await search_nih_reporter(payload)
+    return await get_all_responses(search_params, include_fields, limit)
 
 
 @mcp.custom_route("/health", methods=["GET"])
