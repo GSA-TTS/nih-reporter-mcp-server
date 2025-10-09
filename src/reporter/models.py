@@ -145,6 +145,25 @@ class AdvancedTextSearch(BaseModel):
             return out
         return v
 
+class ProjectNum(BaseModel):
+    project_num: str = Field(
+        ..., 
+        description="Unique project identifier assigned by NIH RePORTER",
+        min_length=1,
+        examples=["1F32AG052995-01A1", "7R01DA034777-04", "1F32DK109635-01A1"]
+    )
+
+    @field_validator('project_num')
+    @classmethod
+    def validate_project_num(cls, v: str) -> str:
+        # Remove any whitespace
+        v = v.strip()
+        
+        # This is a loose check since formats can vary
+        if not v:
+            raise ValueError("Project number cannot be empty")
+        
+        return v.upper()  # Normalize to uppercase
 
 class SearchParams(BaseModel):
     # required 
@@ -153,8 +172,9 @@ class SearchParams(BaseModel):
     # optional filters 
     years: Optional[List[int]] = Field(None, description="List of fiscal years where projects are active (e.g. [2023, 2024])")
     agencies: Optional[List[NIHAgency]] = Field([NIHAgency.NIH], description="the agency providing funding for the grant")
-    organizations: Optional[List[str]] = None
-    pi_name: Optional[str] = None
+    organizations: Optional[List[str]] = Field(None, description="List of organization names who received funding (e.g. ['Johns Hopkins University'])")
+    pi_name: Optional[str] = Field(None, description="Name of the grant's principal investigator (e.g. 'Allyson Sgro')")
+    project_nums: Optional[List[ProjectNum]] = Field(None, description="Unique project identifier(s) assigned by NIH RePORTER (e.g. '1F32AG052995-01A1')")
 
     def to_api_criteria(self):
         """Convert to API criteria format"""
@@ -191,25 +211,9 @@ class SearchParams(BaseModel):
             criteria["organizations"] = self.organizations
         if self.pi_name:
             criteria["pi_names"] = [{"any_name": self.pi_name}]
+        if self.project_nums:
+            criteria["project_nums"] = [a.project_num for a in self.project_nums]
         
         return criteria
     
-class ProjectNum(BaseModel):
-    project_num: str = Field(
-        ..., 
-        description="Unique project identifier assigned by NIH RePORTER",
-        min_length=1,
-        examples=["1F32AG052995-01A1", "7R01DA034777-04", "1F32DK109635-01A1"]
-    )
 
-    @field_validator('project_num')
-    @classmethod
-    def validate_project_num(cls, v: str) -> str:
-        # Remove any whitespace
-        v = v.strip()
-        
-        # This is a loose check since formats can vary
-        if not v:
-            raise ValueError("Project number cannot be empty")
-        
-        return v.upper()  # Normalize to uppercase
