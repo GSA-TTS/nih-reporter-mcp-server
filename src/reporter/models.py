@@ -166,10 +166,8 @@ class ProjectNum(BaseModel):
         return v.upper()  # Normalize to uppercase
 
 class SearchParams(BaseModel):
-    # required 
+    # optional filters  
     advanced_text_search: Optional[AdvancedTextSearch] = Field(None, description="text search string and search parameters")
-
-    # optional filters 
     years: Optional[List[int]] = Field(None, description="List of fiscal years where projects are active (e.g. [2023, 2024])")
     agencies: Optional[List[NIHAgency]] = Field([NIHAgency.NIH], description="the agency providing funding for the grant")
     organizations: Optional[List[str]] = Field(None, description="List of organization names who received funding (e.g. ['Johns Hopkins University'])")
