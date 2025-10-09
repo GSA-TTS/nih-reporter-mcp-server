@@ -29,4 +29,4 @@ The code as written is intended for cloud deployment. Contact the admins if you 
 
 ## 💬 Contact
 
-For any questions please contact [Mark Aronson](mark.aronson@gsa.gov)
+For any questions please contact [Mark Aronson](mailto:mark.aronson@gsa.gov)
