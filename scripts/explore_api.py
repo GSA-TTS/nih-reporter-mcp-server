@@ -1,22 +1,39 @@
 import json 
-from api_utils import get_all_responses
+from api_utils import get_all_responses, get_initial_response
 from reporter.models import SearchParams, AdvancedTextSearch, ProjectNum
 from reporter.utils import get_total_amount
 
 def term_search():
 
     # set query parameters
+    # search_params = SearchParams(
+    #     advanced_text_search=AdvancedTextSearch(
+    #         search_text="egf receptor",
+    #         search_field=["projecttitle"],
+    #         operator="all",
+    #     ),
+    #     years=[2016],
+    # )
+
     search_params = SearchParams(
         advanced_text_search=AdvancedTextSearch(
-            search_text="egf receptor",
-            search_field=["projecttitle"],
+            search_text="egf receptor cell migration",
+            search_field=["projecttitle","abstract","terms"],
             operator="all",
         ),
-        years=[2016],
+        years=[2024],
     )
+
     limit = 50 
     include_fields = ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"]
     
+    # get initial responses 
+    total, response = get_initial_response(search_params, include_fields, limit)
+
+    if total > 100:
+        print(f"Total results: {total}, refine search and try again to get detailed results")
+        return
+
     # get all responses
     response = get_all_responses(search_params, include_fields, limit)
 
@@ -24,7 +41,7 @@ def term_search():
     with open('tests/test_responses/response.json', 'w') as f:
         json.dump(response, f, indent=4)
 
-# term_search()
+term_search()
 
 def funding_by_agency_search():
 
@@ -82,4 +99,4 @@ def get_all_projects():
     with open('tests/test_responses/all_projects.json', 'w') as f:
         json.dump(response, f, indent=4)
     
-get_all_projects()
+# get_all_projects()

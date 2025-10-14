@@ -119,6 +119,13 @@ async def paged_query(search_params:SearchParams, include_fields: list[str], lim
 
     return total_responses, all_results
 
+async def get_initial_response(search_params:SearchParams, include_fields: list[str], limit=100):
+    
+    offset = 0 
+    total_responses, all_results = await paged_query(search_params, include_fields, limit, offset)
+
+    return total_responses, all_results
+
 async def get_all_responses(search_params:SearchParams, include_fields: list[str], limit: int):
 
     offset = 0 

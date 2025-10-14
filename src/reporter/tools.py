@@ -1,4 +1,4 @@
-from reporter.utils import get_all_responses
+from reporter.utils import get_all_responses, get_initial_response
 from reporter.models import SearchParams
 
 def register_tools(mcp):
@@ -16,6 +16,11 @@ def register_tools(mcp):
         # Set query parameters
         limit = 50 
         include_fields = ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"]
+
+        # make the initial search 
+        total, response = await get_initial_response(search_params, include_fields, limit)
+        if total > 100:
+            return {"error": f"Total results: {total}, refine search and try again to get detailed results"}
 
         # Call the API 
         return await get_all_responses(search_params, include_fields, limit)

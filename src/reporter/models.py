@@ -108,8 +108,8 @@ class SearchField(str, Enum):
 
 class AdvancedTextSearch(BaseModel):
     operator: SearchOperator = Field(
-        default=SearchOperator.ALL,
-        description="How to combine multiple search terms"
+        default=SearchOperator.AND,
+        description="How to combine multiple search terms (defaults to AND)"
     )
     search_field: Union[SearchField, List[SearchField]] = Field(
         default=[SearchField.PROJECT_TITLE,SearchField.ABSTRACT,SearchField.TERMS],
