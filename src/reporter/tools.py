@@ -1,9 +1,13 @@
 from reporter.utils import get_all_responses, get_initial_response
 from reporter.models import SearchParams
+from fastmcp import Context
 
 def register_tools(mcp):
     @mcp.tool()
-    async def project_text_search(search_params: SearchParams):
+    async def project_text_search(
+        ctx: Context,
+        search_params: SearchParams,
+    ):
         """
         Tool to perform an advanced text search of the NIH RePORTER based on a given search string.
         
@@ -19,8 +23,11 @@ def register_tools(mcp):
 
         # make the initial search 
         total, response = await get_initial_response(search_params, include_fields, limit)
+
         if total > 100:
-            return {"error": f"Total results: {total}, refine search and try again to get detailed results"}
+            return {
+                "error": f"Search still returns {total} results. Please provide more specific criteria.",
+            }
 
         # Call the API 
         return await get_all_responses(search_params, include_fields, limit)
@@ -56,7 +63,7 @@ def register_tools(mcp):
             dict: API response containing detailed project information
         """
 
-        limit = 10 
+        limit = 25 
         include_fields = None 
 
         return await get_all_responses(search_params, include_fields, limit)

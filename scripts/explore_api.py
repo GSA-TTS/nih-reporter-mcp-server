@@ -41,7 +41,7 @@ def term_search():
     with open('tests/test_responses/response.json', 'w') as f:
         json.dump(response, f, indent=4)
 
-term_search()
+# term_search()
 
 def funding_by_agency_search():
 
@@ -90,8 +90,6 @@ def get_all_projects():
     limit = 500
     include_fields = ["ProjectNum","Organization"]
 
-
-
     # get all responses
     response = get_all_responses(search_params, include_fields, limit)
     
@@ -100,3 +98,19 @@ def get_all_projects():
         json.dump(response, f, indent=4)
     
 # get_all_projects()
+
+def get_grants_for_opportunity_number(opp_num: str):
+
+    search_params = SearchParams(
+        opportunity_numbers=[opp_num],
+    )
+    limit = 500
+    include_fields = None
+
+    response = get_all_responses(search_params, include_fields, limit)
+
+    # export to JSON file 
+    with open('tests/test_responses/opp_num_response.json', 'w') as f:
+        json.dump(response, f, indent=4)
+
+get_grants_for_opportunity_number("PAR-17-473")
