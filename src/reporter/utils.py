@@ -1,6 +1,7 @@
 import requests 
 import asyncio 
 from reporter.models import SearchParams
+from fastmcp import Context 
 
 def clean_json(response):
     """
@@ -119,6 +120,13 @@ async def paged_query(search_params:SearchParams, include_fields: list[str], lim
 
     return total_responses, all_results
 
+async def get_initial_response(search_params:SearchParams, include_fields: list[str], limit=100):
+    
+    offset = 0 
+    total_responses, all_results = await paged_query(search_params, include_fields, limit, offset)
+
+    return total_responses, all_results
+
 async def get_all_responses(search_params:SearchParams, include_fields: list[str], limit: int):
 
     offset = 0 
@@ -137,3 +145,5 @@ async def get_all_responses(search_params:SearchParams, include_fields: list[str
     print(f"Retrieved {len(all_results)} total results")
 
     return all_results
+
+

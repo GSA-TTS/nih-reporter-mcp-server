@@ -1,22 +1,39 @@
 import json 
-from api_utils import get_all_responses
+from api_utils import get_all_responses, get_initial_response
 from reporter.models import SearchParams, AdvancedTextSearch, ProjectNum
 from reporter.utils import get_total_amount
 
 def term_search():
 
     # set query parameters
+    # search_params = SearchParams(
+    #     advanced_text_search=AdvancedTextSearch(
+    #         search_text="egf receptor",
+    #         search_field=["projecttitle"],
+    #         operator="all",
+    #     ),
+    #     years=[2016],
+    # )
+
     search_params = SearchParams(
         advanced_text_search=AdvancedTextSearch(
-            search_text="egf receptor",
-            search_field=["projecttitle"],
+            search_text="egf receptor cell migration",
+            search_field=["projecttitle","abstract","terms"],
             operator="all",
         ),
-        years=[2016],
+        years=[2024],
     )
+
     limit = 50 
     include_fields = ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"]
     
+    # get initial responses 
+    total, response = get_initial_response(search_params, include_fields, limit)
+
+    if total > 100:
+        print(f"Total results: {total}, refine search and try again to get detailed results")
+        return
+
     # get all responses
     response = get_all_responses(search_params, include_fields, limit)
 
@@ -73,8 +90,6 @@ def get_all_projects():
     limit = 500
     include_fields = ["ProjectNum","Organization"]
 
-
-
     # get all responses
     response = get_all_responses(search_params, include_fields, limit)
     
@@ -82,4 +97,20 @@ def get_all_projects():
     with open('tests/test_responses/all_projects.json', 'w') as f:
         json.dump(response, f, indent=4)
     
-get_all_projects()
+# get_all_projects()
+
+def get_grants_for_opportunity_number(opp_num: str):
+
+    search_params = SearchParams(
+        opportunity_numbers=[opp_num],
+    )
+    limit = 500
+    include_fields = None
+
+    response = get_all_responses(search_params, include_fields, limit)
+
+    # export to JSON file 
+    with open('tests/test_responses/opp_num_response.json', 'w') as f:
+        json.dump(response, f, indent=4)
+
+get_grants_for_opportunity_number("PAR-17-473")

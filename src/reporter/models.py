@@ -108,8 +108,8 @@ class SearchField(str, Enum):
 
 class AdvancedTextSearch(BaseModel):
     operator: SearchOperator = Field(
-        default=SearchOperator.ALL,
-        description="How to combine multiple search terms"
+        default=SearchOperator.AND,
+        description="How to combine multiple search terms (defaults to AND)"
     )
     search_field: Union[SearchField, List[SearchField]] = Field(
         default=[SearchField.PROJECT_TITLE,SearchField.ABSTRACT,SearchField.TERMS],
@@ -236,6 +236,7 @@ class SearchParams(BaseModel):
     pi_name: Optional[str] = Field(None, description="Name of the grant's principal investigator (e.g. 'Allyson Sgro')")
     project_nums: Optional[List[ProjectNum]] = Field(None, description="Unique project identifier(s) assigned by NIH RePORTER (e.g. '1F32AG052995-01A1')")
     org_states: Optional[List[StateCode]] = Field(None, description="Organization state")
+    opportunity_numbers: Optional[List[str]] = Field(None, description="Funding opportunity number(s) associated with the grant (e.g. 'PAR-21-293')")
 
     def to_api_criteria(self):
         """Convert to API criteria format"""
@@ -276,6 +277,8 @@ class SearchParams(BaseModel):
             criteria["project_nums"] = [a.project_num for a in self.project_nums]
         if self.org_states:
             criteria["org_states"] = [a.value if hasattr(a, 'value') else a for a in self.org_states]
+        if self.opportunity_numbers:
+            criteria["opportunity_numbers"] = self.opportunity_numbers
         
         return criteria
     
