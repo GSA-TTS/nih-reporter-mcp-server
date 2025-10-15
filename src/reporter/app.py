@@ -3,7 +3,7 @@ from reporter.tools import register_tools
 from starlette.responses import JSONResponse
 
 # Initialize FastMCP server
-mcp = FastMCP("reporter",stateless_http=True)
+mcp = FastMCP("reporter")
 
 # Register custom tools 
 register_tools(mcp)
@@ -14,7 +14,7 @@ async def health_check(request):
     return JSONResponse({"status": "healthy", "service": "mcp-server"})
 
 # Create ASGI app for deployment
-app = mcp.http_app()
+app = mcp.http_app(stateless_http=True)
 
 # Run the server with stdio transport for local testing
 # if __name__ == "__main__":
