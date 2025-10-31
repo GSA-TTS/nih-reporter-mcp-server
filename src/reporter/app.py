@@ -1,5 +1,6 @@
 from fastmcp import FastMCP
 from reporter.tools import register_tools 
+from reporter.prompts import register_prompts
 from starlette.responses import JSONResponse
 
 # Initialize FastMCP server
@@ -7,6 +8,9 @@ mcp = FastMCP("reporter")
 
 # Register custom tools 
 register_tools(mcp)
+
+# Register custom prompts
+register_prompts(mcp)
 
 # Health check endpoint
 @mcp.custom_route("/health", methods=["GET"])
