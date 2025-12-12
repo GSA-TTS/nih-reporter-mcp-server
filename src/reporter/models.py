@@ -270,7 +270,7 @@ class SearchParams(BaseModel):
         if self.agencies:
             criteria["agencies"] = [a.value if hasattr(a, 'value') else a for a in self.agencies]
         if self.organizations:
-            criteria["organizations"] = self.organizations
+            criteria["org_names"] = self.organizations
         if self.pi_name:
             criteria["pi_names"] = [{"any_name": self.pi_name}]
         if self.project_nums:

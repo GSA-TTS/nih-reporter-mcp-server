@@ -47,9 +47,9 @@ def funding_by_agency_search():
 
     # set query parameters
     search_params = SearchParams(
-        years=[2018],
-        agencies=["NIAID"],
-        organizations=["Johns Hopkins University"],
+        years=[2025],
+        agencies=["NCI"],
+        organizations=["Boston University"],
     )
     limit = 500
     include_fields = ["ProjectNum","AwardAmount"]
@@ -63,7 +63,7 @@ def funding_by_agency_search():
 
     print("Total Award Amount:", get_total_amount(response))
 
-# funding_by_agency_search()
+funding_by_agency_search()
 
 def get_project_details(project_num: str):
 
@@ -113,4 +113,4 @@ def get_grants_for_opportunity_number(opp_num: str):
     with open('tests/test_responses/opp_num_response.json', 'w') as f:
         json.dump(response, f, indent=4)
 
-get_grants_for_opportunity_number("PAR-17-473")
+# get_grants_for_opportunity_number("PAR-17-473")

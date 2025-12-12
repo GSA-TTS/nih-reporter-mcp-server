@@ -19,7 +19,18 @@ def register_tools(mcp):
 
         # Set query parameters
         limit = 50 
-        include_fields = ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"]
+        include_fields = [
+            "ProjectTitle",
+            "FiscalYear",
+            "PrincipalInvestigators",
+            "ActivityCode",
+            "ProjectNum",
+            "AgencyIcAdmin",
+            "CongDist",
+            "AgencyCode",
+            "AwardAmount",
+            "Organization"
+        ]
 
         # make the initial search 
         total, response = await get_initial_response(search_params, include_fields, limit)
