@@ -4,66 +4,71 @@ from fastmcp import Context
 
 def register_tools(mcp):
     @mcp.tool()
-    async def project_text_search(
+    async def find_project_ids(
         ctx: Context,
         search_params: SearchParams,
     ):
         """
-        Tool to perform an advanced text search of the NIH RePORTER based on a given search string.
+        Tool to perform a search of the NIH RePORTER API and return project IDs based on search criteria.
         
         Args:
             search_params (SearchParams): Search parameters including search term, years, agencies, organizations, and pi_name.
         Returns:
-            dict: API response containing grant data
+            dict: API response containing grant ids 
         """
 
         # Set query parameters
-        limit = 50 
-        include_fields = ["ProjectTitle","FiscalYear","PrincipalInvestigators","ActivityCode","ProjectNum","AgencyIcAdmin","CongDist","AgencyCode","AwardAmount","Organization"]
+        limit = 500 
+        include_fields = [
+            "ProjectNum",
+        ]
 
-        # make the initial search 
-        total, response = await get_initial_response(search_params, include_fields, limit)
-
-        if total > 100:
-            return {
-                "error": f"Search still returns {total} results. Please provide more specific criteria.",
-            }
-
-        # Call the API 
+        # # Call the API 
         return await get_all_responses(search_params, include_fields, limit)
     
     @mcp.tool()
-    async def get_all_projects_by_ic(search_params: SearchParams):
+    async def get_project_descriptions(search_params: SearchParams):
         """
-            Tool to get an exhaustive list of projects for specific search critiera (such as NIH institute or center (IC) in a given year).
-            
-            Args:
-                search_params (SearchParams): Search parameters including years, agencies
-                
-            Returns:
-                dict: API response containing project IDs 
-            """
-
-        # Set query parameters 
-        limit = 500
-        include_fields = ["ProjectNum"]
-
-        # Call the API 
-        return await get_all_responses(search_params, include_fields, limit)
-    
-    @mcp.tool()
-    async def get_project_details(search_params: SearchParams):
-        """
-        Tool to get detailed information about a specific project using its project number.
+        Tool to get all available project information including full title and abstract text.
+        Use this to answer questions related to the content of the project. 
         
         Args:
-            search_params (SearchParams): Search parameters including years, agencies, organizations, and pi_name.
+            search_params (SearchParams): project ID numbers 
                 
         Returns:
-            dict: API response containing detailed project information
+            dict: API response containing full project information including title and abstract text 
         """
 
-        limit = 25 
+        limit = 100 
         include_fields = None 
 
+        return await get_all_responses(search_params, include_fields, limit)
+    
+    @mcp.tool()
+    async def get_project_information(search_params: SearchParams):
+        """
+        Tool to get specified metadata for a project based on project number. 
+        Use this to answer questions about award amounts, organizations, PIs, etc.
+        
+        Args:
+            search_params (SearchParams): project ID numbers 
+                
+        Returns:
+            dict: API response with specified project metadata
+        """
+
+        limit = 500 
+        include_fields = [
+            "FiscalYear",
+            "PrincipalInvestigators",
+            "ActivityCode",
+            "ProjectNum",
+            "AgencyIcAdmin",
+            "CongDist",
+            "AgencyCode",
+            "AwardAmount",
+            "Organization"
+        ]
+
+        # Call the API 
         return await get_all_responses(search_params, include_fields, limit)
