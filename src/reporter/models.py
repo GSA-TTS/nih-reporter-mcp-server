@@ -237,6 +237,7 @@ class SearchParams(BaseModel):
     project_nums: Optional[List[ProjectNum]] = Field(None, description="Unique project identifier(s) assigned by NIH RePORTER (e.g. '1F32AG052995-01A1')")
     org_states: Optional[List[StateCode]] = Field(None, description="Organization state")
     opportunity_numbers: Optional[List[str]] = Field(None, description="Funding opportunity number(s) associated with the grant (e.g. 'PAR-21-293')")
+    activity_codes: Optional[List[str]] = Field(None, description="Activity codes associated with the grant (e.g. 'R01', 'F32')")
 
     def to_api_criteria(self):
         """Convert to API criteria format"""
@@ -279,6 +280,8 @@ class SearchParams(BaseModel):
             criteria["org_states"] = [a.value if hasattr(a, 'value') else a for a in self.org_states]
         if self.opportunity_numbers:
             criteria["opportunity_numbers"] = self.opportunity_numbers
+        if self.activity_codes:
+            criteria["activity_codes"] = self.activity_codes
         
         return criteria
     

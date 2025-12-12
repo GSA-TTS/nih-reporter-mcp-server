@@ -1,21 +1,21 @@
 def register_prompts(mcp):
 
     @mcp.prompt()
-    def research_topic_deep_dive(topic: str, num_grants: int = 30) -> str:
-        """Search for NIH grants on a specific topic and get detailed information about the most relevant ones"""
+    def project_content_search() -> str:
+        """Use this prompt to answer questions about the content of NIH-funded research projects."""
 
-        return f"""Please help me research NIH grants about {topic}. Follow these steps:
+        return f"""Please help me summarize the content of NIH research grants. Follow these steps:
 
-            1. First, use the project_text_search tool to find grants related to "{topic}"
-            2. Review the search results and identify the {num_grants} most relevant grants based on:
-            - Relevance to the topic
-            - Funding amount
-            - Recent activity
-            3. For each of those {num_grants} grants, use the get_project_details tool with the project number to get comprehensive details
-            4. Summarize the key findings, including:
-            - Common research themes and approaches
-            - Funding trends and amounts
-            - Notable researchers and institutions
-            - Geographic distribution
+            1. First, use the find_project_ids tool to find grants matching the search parameters
+            2. Then use the get_project_descriptions tool to get detailed information (including title and abstract)
+            3. Use this information to answer the user's question."""
+    
+    @mcp.prompt()
+    def project_information_search() -> str:
+        """Use this prompt to answer questions about the information of NIH-funded research projects."""
 
-            Focus on recent grants (last 3-5 years) unless I specify otherwise."""
+        return f"""Please help me do a summary analysis of NIH research grants. Follow these steps:
+
+            1. First, use the find_project_ids tool to find grants matching the search parameters
+            2. Then use the get_project_information tool to get detailed information (including organization, PI, award amount)
+            3. Use this information to answer the user's question."""
