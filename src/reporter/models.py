@@ -225,7 +225,21 @@ class StateCode(str, Enum):
     FM = "FM"
     MH = "MH"
     PW = "PW"
-    
+
+class FundingMechanism(str, Enum):
+    """NIH funding mechanism categories for budget tables."""
+    NON_SBIR_STTR_RESEARCH = "RP"
+    SBIR_STTR_RESEARCH = "SB"
+    RESEARCH_CENTERS = "RC"
+    OTHER_RESEARCH = "OR"
+    TRAINING_INDIVIDUAL = "TR"
+    TRAINING_INSTITUTIONAL = "TI"
+    CONSTRUCTION = "CO"
+    NON_SBIR_STTR_CONTRACTS = "NSRDC"
+    SBIR_STTR_CONTRACTS = "SRDC"
+    INTERAGENCY = "IAA"
+    INTRAMURAL = "IM"
+    OTHER = "Other"
 
 class SearchParams(BaseModel):
     # optional filters  
@@ -238,6 +252,7 @@ class SearchParams(BaseModel):
     org_states: Optional[List[StateCode]] = Field(None, description="Organization state")
     opportunity_numbers: Optional[List[str]] = Field(None, description="Funding opportunity number(s) associated with the grant (e.g. 'PAR-21-293')")
     activity_codes: Optional[List[str]] = Field(None, description="Activity codes associated with the grant (e.g. 'R01', 'F32')")
+    funding_mechanisms: Optional[List[FundingMechanism]] = Field(None, description="Funding mechanism categories (e.g. ['RP', 'RC'])")
 
     def to_api_criteria(self):
         """Convert to API criteria format"""
@@ -282,6 +297,8 @@ class SearchParams(BaseModel):
             criteria["opportunity_numbers"] = self.opportunity_numbers
         if self.activity_codes:
             criteria["activity_codes"] = self.activity_codes
+        if self.funding_mechanisms:
+            criteria["funding_mechanisms"] = [a.value if hasattr(a, 'value') else a for a in self.funding_mechanisms]
         
         return criteria
     
