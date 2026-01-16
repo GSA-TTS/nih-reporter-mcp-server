@@ -146,4 +146,46 @@ async def get_all_responses(search_params:SearchParams, include_fields: list[str
 
     return all_results
 
+def get_project_distributions(all_results):
+    """
+    Calculate distributions of project years, institutes, and activity codes.
 
+    Args:
+        all_results (dict): API response containing grant data
+    Returns:
+        tuple: (project_ids, year_distribution, institute_distribution, activity_code_distribution)
+    """
+
+    results = all_results.get("results", [])
+        
+    # Extract project IDs - handle case where individual results might be strings
+    project_ids = []
+    for r in results:
+        if isinstance(r, dict) and r.get("project_num"):
+            project_ids.append({"project_num": r.get("project_num")})
+    
+    # Calculate distributions
+    from collections import Counter
+    
+    # Year distribution - only process dict results
+    year_dist = Counter(
+        r.get("fiscal_year") 
+        for r in results 
+        if isinstance(r, dict) and r.get("fiscal_year")
+    )
+    
+    # Institute/Center distribution
+    ic_dist = Counter(
+        r.get("agency_ic_admin") 
+        for r in results 
+        if isinstance(r, dict) and r.get("agency_ic_admin")
+    )
+    
+    # Activity code distribution
+    activity_dist = Counter(
+        r.get("activity_code") 
+        for r in results 
+        if isinstance(r, dict) and r.get("activity_code")
+    )
+    
+    return project_ids, year_dist, ic_dist, activity_dist

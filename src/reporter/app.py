@@ -21,9 +21,9 @@ async def health_check(request):
 app = mcp.http_app(stateless_http=True)
 
 # Run the server with stdio transport for local testing
-# if __name__ == "__main__":
-#     # Initialize and run the server
-#     mcp.run(transport='stdio')
+if __name__ == "__main__":
+    # Initialize and run the server
+    mcp.run(transport='stdio')
 
 # Run the server with HTTP transport for external access
 # if __name__ == "__main__":
