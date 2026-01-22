@@ -4,6 +4,39 @@ from fastmcp import Context
 
 def register_tools(mcp):
     @mcp.tool()
+    async def search_projects(
+        ctx: Context,
+        search_params: SearchParams,
+    ):
+        """
+        Tool to perform an initial search of the NIH RePORTER API and return the count of matching projects.
+
+        Use this tool first to see how many projects match your search criteria before
+        retrieving detailed results.
+
+        Args:
+            search_params (SearchParams): Search parameters including search term, years, agencies, organizations, and pi_name.
+
+        Returns:
+            dict: API response containing:
+            - total_projects: Total number of matching projects in database
+        """
+
+        # Minimal fields needed - just need the count from meta
+        include_fields = ["ProjectNum"]
+
+        # Get initial response with limit of 1 (we only need the count)
+        total_projects, _ = await get_initial_response(
+            search_params,
+            include_fields,
+            limit=1
+        )
+
+        return {
+            "total_projects": total_projects,
+        }
+
+    @mcp.tool()
     async def find_project_ids(
         ctx: Context,
         search_params: SearchParams,
