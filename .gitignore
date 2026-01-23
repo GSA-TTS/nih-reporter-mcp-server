@@ -10,6 +10,7 @@ src/reporter.egg-info/
 
 # ignore secrets
 secrets/
+.env
 
 # ignore scripts 
 scripts/
