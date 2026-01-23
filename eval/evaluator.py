@@ -77,9 +77,10 @@ class Evaluator:
         Returns:
             The model's response text
         """
-        response = self.client.messages.create(
+        response = self.client.beta.messages.create(
             model=self.model,
             max_tokens=4096,
+            betas=["mcp-client-2025-04-04"],
             mcp_servers=[
                 {
                     "type": "url",

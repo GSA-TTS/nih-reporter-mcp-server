@@ -1,0 +1,95 @@
+{
+  "summary": {
+    "total": 5,
+    "passed": 0,
+    "failed": 5,
+    "pass_rate": 0.0,
+    "by_eval_type": {
+      "numeric": {
+        "total": 3,
+        "passed": 0
+      },
+      "string": {
+        "total": 2,
+        "passed": 0
+      }
+    }
+  },
+  "results": [
+    {
+      "question": "How many total projects are in NIH RePORTER for fiscal year 2024?",
+      "expected_answer": "83475",
+      "eval_type": "numeric",
+      "model_response": "I'll search the NIH RePORTER database to find the total number of projects for fiscal year 2024.\nLet me try a different approach to get the total project count for fiscal year 2024:\nLet me try using the find_project_ids function to get the total count:\nI'm experiencing technical issues accessing the NIH RePORTER database at the moment. The API appears to be unavailable or experiencing connectivity problems. \n\nTo get the total number of projects in NIH RePORTER for fiscal year 2024, you could try:\n\n1. **Visit the NIH RePORTER website directly** at https://reporter.nih.gov/\n2. **Use their search interface** to filter by fiscal year 2024\n3. **Check NIH's annual reports** or data summaries which often contain aggregate statistics\n\nTypically, NIH funds tens of thousands of research projects annually across all its institutes and centers. For context, in recent years the total has been in the range of 50,000-60,000+ active projects per fiscal year, but I cannot provide the exact 2024 figure due to the current API issues.\n\nWould you like me to try searching for a more specific subset of projects (like a particular institute or research area) once the connection is restored?",
+      "passed": false,
+      "details": {
+        "passed": false,
+        "extracted_value": 2024.0,
+        "expected_value": 83475.0,
+        "details": "Difference: 97.58% (tolerance: 5.00%)"
+      },
+      "error": null
+    },
+    {
+      "question": "What is the project title for grant 5R42DE030040-03?",
+      "expected_answer": "Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist",
+      "eval_type": "string",
+      "model_response": "I'll look up the project title for grant 5R42DE030040-03.\nLet me try a different approach and search for this specific project number first:\nI'm experiencing some technical difficulties accessing the project information. This could be because:\n\n1. The grant number 5R42DE030040-03 may not exist in the NIH RePORTER database\n2. There might be a formatting issue with the project number\n3. The project may not be publicly available in the database yet\n\nCould you please verify that the grant number 5R42DE030040-03 is correct? Sometimes grant numbers can have slight variations in formatting (with or without hyphens, different prefixes, etc.). If you have the grant number from an official NIH document, please double-check the exact formatting.",
+      "passed": false,
+      "details": {
+        "passed": false,
+        "match_type": "no_match",
+        "similarity": 0.3798449612403101,
+        "details": "Best match: 'and search for this specific project number first: I'm experiencing some technical difficulties accessing the project information. This' with similarity 37.98%"
+      },
+      "error": null
+    },
+    {
+      "question": "How many R01 grants were funded by NCI in fiscal year 2023?",
+      "expected_answer": "4084",
+      "eval_type": "numeric",
+      "model_response": "I'll search for R01 grants funded by NCI in fiscal year 2023 to get you the exact count.\nLet me try again with the search function:\nLet me use the get_search_summary function to get the complete count:\nI apologize for the technical issues. Let me try a different approach by using the search projects function with a slightly different parameter structure:\nI'm experiencing technical difficulties with the NIH RePORTER API at the moment. The system appears to be having connectivity issues that are preventing me from retrieving the data about R01 grants funded by NCI in fiscal year 2023.\n\nTo get this information, you could:\n\n1. Visit the NIH RePORTER website directly at https://reporter.nih.gov\n2. Use their search interface to filter for:\n   - Activity Code: R01\n   - Agency: NCI (National Cancer Institute)\n   - Fiscal Year: 2023\n\nAlternatively, if you'd like to try again in a few minutes, I can attempt to query the database once the connectivity issues are resolved.",
+      "passed": false,
+      "details": {
+        "passed": false,
+        "extracted_value": 1.0,
+        "expected_value": 4084.0,
+        "details": "Difference: 99.98% (tolerance: 5.00%)"
+      },
+      "error": null
+    },
+    {
+      "question": "Who is the principal investigator for a 2P20GM135004-06A1?",
+      "expected_answer": "Sharmila Nair",
+      "eval_type": "string",
+      "model_response": "I'll look up the principal investigator information for project 2P20GM135004-06A1.\nLet me try a different approach and search for this specific project number first:\nIt appears there may be an issue with finding that specific project number. Let me try searching for a similar project number pattern to see if we can locate it:\nI'm experiencing technical difficulties accessing the NIH RePORTER database at the moment. The project number \"2P20GM135004-06A1\" appears to be a valid NIH project identifier format (it's a P20 grant from NIGMS - the National Institute of General Medical Sciences), but I'm unable to retrieve the principal investigator information due to a system error.\n\nYou might want to try:\n1. Searching directly on the NIH RePORTER website (https://reporter.nih.gov/)\n2. Trying again in a few minutes in case this is a temporary issue\n3. Double-checking that the project number is exactly correct\n\nIf you have the correct project number and would like to try again, I'd be happy to help once the system is responding properly.",
+      "passed": false,
+      "details": {
+        "passed": false,
+        "match_type": "no_match",
+        "similarity": 0.5454545454545454,
+        "details": "Best match: 'a similar' with similarity 54.55%"
+      },
+      "error": null
+    },
+    {
+      "question": "How many NIH grants did Purdue University receive in 2019?",
+      "expected_answer": "176",
+      "eval_type": "numeric",
+      "model_response": "I'll search for NIH grants awarded to Purdue University in 2019.\nLet me try the search with a different approach:\nLet me try with the comprehensive summary tool:\nI'm encountering technical issues with the API. Let me try a simpler search to see if there might be variations in how Purdue University is listed in the database:\nI apologize, but I'm experiencing technical difficulties with the NIH RePORTER API at the moment. The system appears to be having connectivity or data retrieval issues. \n\nTo get information about NIH grants awarded to Purdue University in 2019, you could:\n\n1. **Visit the NIH RePORTER website directly** at https://reporter.nih.gov/\n2. **Search manually** using these parameters:\n   - Organization: \"Purdue University\" \n   - Fiscal Year: 2019\n   - Agency: NIH\n\nThe NIH RePORTER database should show you the total number of grants, funding amounts, and other details about Purdue University's NIH awards for 2019.\n\nWould you like me to try the search again, or is there another way I can help you with NIH grant information?",
+      "passed": false,
+      "details": {
+        "passed": false,
+        "extracted_value": 2019.0,
+        "expected_value": 176.0,
+        "details": "Difference: 1047.16% (tolerance: 5.00%)"
+      },
+      "error": null
+    }
+  ],
+  "metadata": {
+    "server_url": "https://nih-reporter-mcp-server-turbulent-impala-zh.app.cloud.gov/mcp",
+    "model": "claude-sonnet-4-20250514",
+    "timestamp": "20260123_164143"
+  }
+}
