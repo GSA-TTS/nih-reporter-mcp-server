@@ -1,0 +1,6 @@
+question,expected_answer,eval_type
+"How many total projects are in NIH RePORTER for fiscal year 2024?",83475,numeric
+"What is the project title for grant 5R42DE030040-03?","Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist",string
+"How many R01 grants were funded by NCI in fiscal year 2023?",4084,numeric
+"Who is the principal investigator for a 2P20GM135004-06A1?","Sharmila Nair",string
+"How many NIH grants did Purdue University receive in 2019?",176,numeric

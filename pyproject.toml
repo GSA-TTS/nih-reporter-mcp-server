@@ -9,6 +9,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "anthropic>=0.40.0",
+    "python-dotenv>=1.0.0",
     "asyncio>=3.4.3",
     "fastmcp>=2.12.4",
     "httpx>=0.28.1",
@@ -16,6 +18,7 @@ dependencies = [
     "pydantic>=2.11.7",
     "requests>=2.32.4",
     "starlette>=0.47.2",
+    "uvicorn>=0.37.0",
 ]
 
 [tool.setuptools]

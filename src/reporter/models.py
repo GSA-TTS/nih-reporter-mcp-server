@@ -225,7 +225,90 @@ class StateCode(str, Enum):
     FM = "FM"
     MH = "MH"
     PW = "PW"
-    
+
+class FundingMechanism(str, Enum):
+    """NIH funding mechanism categories for budget tables."""
+    NON_SBIR_STTR_RESEARCH = "RP"
+    SBIR_STTR_RESEARCH = "SB"
+    RESEARCH_CENTERS = "RC"
+    OTHER_RESEARCH = "OR"
+    TRAINING_INDIVIDUAL = "TR"
+    TRAINING_INSTITUTIONAL = "TI"
+    CONSTRUCTION = "CO"
+    NON_SBIR_STTR_CONTRACTS = "NSRDC"
+    SBIR_STTR_CONTRACTS = "SRDC"
+    INTERAGENCY = "IAA"
+    INTRAMURAL = "IM"
+    OTHER = "Other"
+
+
+class IncludeField(str, Enum):
+    """Valid field names for the include_fields parameter in NIH RePORTER API queries."""
+    # Project identifiers
+    APPL_ID = "ApplId"
+    SUBPROJECT_ID = "SubprojectId"
+    PROJECT_NUM = "ProjectNum"
+    PROJECT_SERIAL_NUM = "ProjectSerialNum"
+    CORE_PROJECT_NUM = "CoreProjectNum"
+    PROJECT_NUM_SPLIT = "ProjectNumSplit"
+
+    # Dates and timing
+    FISCAL_YEAR = "FiscalYear"
+    PROJECT_START_DATE = "ProjectStartDate"
+    PROJECT_END_DATE = "ProjectEndDate"
+    AWARD_NOTICE_DATE = "AwardNoticeDate"
+    BUDGET_START = "BudgetStart"
+    BUDGET_END = "BudgetEnd"
+    DATE_ADDED = "DateAdded"
+
+    # Funding and costs
+    AWARD_AMOUNT = "AwardAmount"
+    DIRECT_COST_AMT = "DirectCostAmt"
+    INDIRECT_COST_AMT = "IndirectCostAmt"
+    AWARD_TYPE = "AwardType"
+    ACTIVITY_CODE = "ActivityCode"
+    FUNDING_MECHANISM = "FundingMechanism"
+    MECHANISM_CODE_DC = "MechanismCodeDc"
+    CFDA_CODE = "CfdaCode"
+
+    # Organization
+    ORGANIZATION = "Organization"
+    ORGANIZATION_TYPE = "OrganizationType"
+    CONG_DIST = "CongDist"
+    GEO_LAT_LON = "GeoLatLon"
+
+    # Personnel
+    PRINCIPAL_INVESTIGATORS = "PrincipalInvestigators"
+    CONTACT_PI_NAME = "ContactPiName"
+    PROGRAM_OFFICERS = "ProgramOfficers"
+
+    # Agency
+    AGENCY_CODE = "AgencyCode"
+    AGENCY_IC_ADMIN = "AgencyIcAdmin"
+    AGENCY_IC_FUNDINGS = "AgencyIcFundings"
+
+    # Project content
+    PROJECT_TITLE = "ProjectTitle"
+    ABSTRACT_TEXT = "AbstractText"
+    PHR_TEXT = "PhrText"
+    TERMS = "Terms"
+    PREF_TERMS = "PrefTerms"
+
+    # Categories and classifications
+    SPENDING_CATEGORIES = "SpendingCategories"
+    SPENDING_CATEGORIES_DESC = "SpendingCategoriesDesc"
+    FULL_STUDY_SECTION = "FullStudySection"
+    OPPORTUNITY_NUMBER = "OpportunityNumber"
+
+    # Status flags
+    IS_ACTIVE = "IsActive"
+    IS_NEW = "IsNew"
+    ARRA_FUNDED = "ArraFunded"
+    COVID_RESPONSE = "CovidResponse"
+
+    # Other
+    PROJECT_DETAIL_URL = "ProjectDetailUrl"
+
 
 class SearchParams(BaseModel):
     # optional filters  
@@ -238,6 +321,7 @@ class SearchParams(BaseModel):
     org_states: Optional[List[StateCode]] = Field(None, description="Organization state")
     opportunity_numbers: Optional[List[str]] = Field(None, description="Funding opportunity number(s) associated with the grant (e.g. 'PAR-21-293')")
     activity_codes: Optional[List[str]] = Field(None, description="Activity codes associated with the grant (e.g. 'R01', 'F32')")
+    funding_mechanisms: Optional[List[FundingMechanism]] = Field(None, description="Funding mechanism categories (e.g. ['RP', 'RC'])")
 
     def to_api_criteria(self):
         """Convert to API criteria format"""
@@ -282,6 +366,8 @@ class SearchParams(BaseModel):
             criteria["opportunity_numbers"] = self.opportunity_numbers
         if self.activity_codes:
             criteria["activity_codes"] = self.activity_codes
+        if self.funding_mechanisms:
+            criteria["funding_mechanisms"] = [a.value if hasattr(a, 'value') else a for a in self.funding_mechanisms]
         
         return criteria
     
