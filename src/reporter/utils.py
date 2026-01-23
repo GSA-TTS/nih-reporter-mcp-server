@@ -78,8 +78,7 @@ async def search_nih_reporter(payload):
         return response.json()
     
     except requests.exceptions.RequestException as e:
-        print(f"Error making API request: {e}")
-        return None
+        raise Exception(f"NIH RePORTER API request failed: {e}")
     
 async def paged_query(search_params:SearchParams, include_fields: list[str], limit=100, offset=0, all_results=None):
     """
@@ -104,8 +103,12 @@ async def paged_query(search_params:SearchParams, include_fields: list[str], lim
     }
 
     response = await search_nih_reporter(payload)
+
+    if response is None:
+        raise Exception("NIH RePORTER API request failed - no response received")
+
     response = clean_json(response)
-    
+
     total_responses = response['meta']['total']
     
     # if initial call, create empty list to collect results
