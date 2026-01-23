@@ -1,6 +1,6 @@
-from typing import Optional, List
+from typing import List
 from reporter.utils import get_all_responses, get_initial_response, get_project_distributions
-from reporter.models import SearchParams, ProjectNum, NIHAgency, StateCode, IncludeField
+from reporter.models import SearchParams, ProjectNum, IncludeField
 from fastmcp import Context
 
 def register_tools(mcp):
@@ -21,85 +21,107 @@ def register_tools(mcp):
         Returns:
             dict: API response containing:
             - total_projects: Total number of matching projects in database
-        """
-
-        # Minimal fields needed - just need the count from meta
-        include_fields = [IncludeField.PROJECT_NUM.value]
-
-        # Get initial response with limit of 1 (we only need the count)
-        total_projects, _ = await get_initial_response(
-            search_params,
-            include_fields,
-            limit=1
-        )
-
-        return {
-            "total_projects": total_projects,
-        }
-
-    @mcp.tool()
-    async def refine_search(
-        ctx: Context,
-        search_params: SearchParams,
-        filter_years: Optional[List[int]] = None,
-        filter_agencies: Optional[List[NIHAgency]] = None,
-        filter_activity_codes: Optional[List[str]] = None,
-        filter_states: Optional[List[StateCode]] = None,
-    ):
-        """
-        Tool to refine search results by applying additional filters.
-
-        Use this after search_projects to narrow down results based on distributions.
-        Pass the original search_params along with filter parameters to see how
-        adding constraints affects the result count.
-
-        Args:
-            search_params (SearchParams): The base search criteria from your initial search.
-            filter_years (Optional[List[int]]): Filter to specific fiscal years (e.g., [2023, 2024]).
-            filter_agencies (Optional[List[NIHAgency]]): Filter to specific NIH institutes (e.g., [NCI, NIMH]).
-            filter_activity_codes (Optional[List[str]]): Filter to specific grant types (e.g., ["R01", "F32"]).
-            filter_states (Optional[List[StateCode]]): Filter to specific states (e.g., [CA, NY]).
-
-        Returns:
-            dict: API response containing:
-            - total_projects: Total number of matching projects after refinement
             - year_distribution: Breakdown of projects by fiscal year
             - institute_distribution: Breakdown by NIH institute/center
             - activity_code_distribution: Breakdown by activity code (grant type)
+            - organization_distribution: Breakdown by institution/organization
+            - funding_mechanism_distribution: Breakdown by funding mechanism
+            - active_status_distribution: Breakdown of active vs inactive projects
+            - award_amount_stats: Funding statistics (total, average, min, max)
         """
 
-        # Apply filters to search_params
-        if filter_years:
-            search_params.years = filter_years
-        if filter_agencies:
-            search_params.agencies = filter_agencies
-        if filter_activity_codes:
-            search_params.activity_codes = filter_activity_codes
-        if filter_states:
-            search_params.org_states = filter_states
-
-        # Get results with distribution fields
+        # Get data with fields needed for distributions
         include_fields = [
             IncludeField.PROJECT_NUM.value,
             IncludeField.FISCAL_YEAR.value,
             IncludeField.AGENCY_IC_ADMIN.value,
             IncludeField.ACTIVITY_CODE.value,
+            IncludeField.ORGANIZATION.value,
+            IncludeField.FUNDING_MECHANISM.value,
+            IncludeField.IS_ACTIVE.value,
+            IncludeField.AWARD_AMOUNT.value,
         ]
-        limit = 500
 
+        # Get initial response (limit 500 for distribution sampling)
+        limit = 500
         total_projects, all_results = await get_initial_response(
             search_params,
             include_fields,
             limit
         )
 
-        _, year_dist, ic_dist, activity_dist = get_project_distributions(all_results)
+        distributions = get_project_distributions(all_results)
 
         return {
             "total_projects": total_projects,
-            "year_distribution": dict(sorted(year_dist.items(), reverse=True)),
-            "institute_distribution": dict(ic_dist.most_common(15)),
-            "activity_code_distribution": dict(activity_dist.most_common(15)),
+            "year_distribution": dict(sorted(distributions["year_distribution"].items(), reverse=True)),
+            "institute_distribution": dict(distributions["institute_distribution"].most_common(15)),
+            "activity_code_distribution": dict(distributions["activity_code_distribution"].most_common(15)),
+            "organization_distribution": dict(distributions["organization_distribution"].most_common(15)),
+            "funding_mechanism_distribution": dict(distributions["funding_mechanism_distribution"].most_common()),
+            "active_status_distribution": dict(distributions["active_status_distribution"]),
+            "award_amount_stats": distributions["award_amount_stats"],
+        }
+
+    @mcp.tool()
+    async def get_search_summary(
+        ctx: Context,
+        search_params: SearchParams,
+    ):
+        """
+        Tool to get a comprehensive summary of ALL projects matching search criteria.
+
+        Unlike search_projects (which samples the first 500 results for a quick preview),
+        this tool fetches all matching projects to provide accurate, complete statistics.
+        Use this when you need exact totals (e.g., "total funding for cancer research").
+
+        Note: This may be slower for large result sets as it pages through all results.
+
+        Args:
+            search_params (SearchParams): Search parameters including search term, years, agencies, organizations, and pi_name.
+
+        Returns:
+            dict: API response containing complete statistics:
+            - total_projects: Total number of matching projects
+            - year_distribution: Complete breakdown of projects by fiscal year
+            - institute_distribution: Complete breakdown by NIH institute/center
+            - activity_code_distribution: Complete breakdown by activity code (grant type)
+            - organization_distribution: Complete breakdown by institution/organization
+            - funding_mechanism_distribution: Complete breakdown by funding mechanism
+            - active_status_distribution: Complete breakdown of active vs inactive projects
+            - award_amount_stats: Complete funding statistics (total, average, min, max)
+        """
+
+        # Get data with fields needed for distributions
+        include_fields = [
+            IncludeField.PROJECT_NUM.value,
+            IncludeField.FISCAL_YEAR.value,
+            IncludeField.AGENCY_IC_ADMIN.value,
+            IncludeField.ACTIVITY_CODE.value,
+            IncludeField.ORGANIZATION.value,
+            IncludeField.FUNDING_MECHANISM.value,
+            IncludeField.IS_ACTIVE.value,
+            IncludeField.AWARD_AMOUNT.value,
+        ]
+
+        # Fetch ALL results (pages through entire result set)
+        all_results = await get_all_responses(
+            search_params,
+            include_fields,
+        )
+
+        distributions = get_project_distributions(all_results)
+        total_projects = len(distributions["project_ids"])
+
+        return {
+            "total_projects": total_projects,
+            "year_distribution": dict(sorted(distributions["year_distribution"].items(), reverse=True)),
+            "institute_distribution": dict(distributions["institute_distribution"].most_common(15)),
+            "activity_code_distribution": dict(distributions["activity_code_distribution"].most_common(15)),
+            "organization_distribution": dict(distributions["organization_distribution"].most_common(15)),
+            "funding_mechanism_distribution": dict(distributions["funding_mechanism_distribution"].most_common()),
+            "active_status_distribution": dict(distributions["active_status_distribution"]),
+            "award_amount_stats": distributions["award_amount_stats"],
         }
 
     @mcp.tool()
@@ -143,16 +165,17 @@ def register_tools(mcp):
             include_fields,
             limit
         )
-        
-        project_ids, year_dist, ic_dist, activity_dist = get_project_distributions(all_results)
-        
+
+        distributions = get_project_distributions(all_results)
+        project_ids = distributions["project_ids"]
+
         return {
             "total_projects": total_projects,
             "returned_projects": len(project_ids),
             "project_ids": project_ids,
-            "year_distribution": dict(sorted(year_dist.items(), reverse=True)),
-            "institute_distribution": dict(ic_dist.most_common(15)),
-            "activity_code_distribution": dict(activity_dist.most_common(15)),
+            "year_distribution": dict(sorted(distributions["year_distribution"].items(), reverse=True)),
+            "institute_distribution": dict(distributions["institute_distribution"].most_common(15)),
+            "activity_code_distribution": dict(distributions["activity_code_distribution"].most_common(15)),
             "has_more_results": total_projects > len(project_ids),
         }
         
@@ -198,8 +221,6 @@ def register_tools(mcp):
             dict: API response with specified project metadata
         """
 
-        limit = 100
-
         # Convert IncludeField enums to their string values
         field_values = [f.value for f in include_fields]
 
@@ -209,4 +230,4 @@ def register_tools(mcp):
         )
 
         # Call the API
-        return await get_all_responses(search_params, field_values, limit)
+        return await get_all_responses(search_params, field_values)

@@ -127,7 +127,7 @@ async def get_initial_response(search_params:SearchParams, include_fields: list[
 
     return total_responses, all_results
 
-async def get_all_responses(search_params:SearchParams, include_fields: list[str], limit: int):
+async def get_all_responses(search_params:SearchParams, include_fields: list[str], limit=500):
 
     offset = 0 
     total_responses, all_results = await paged_query(search_params, include_fields, limit, offset)
@@ -148,44 +148,107 @@ async def get_all_responses(search_params:SearchParams, include_fields: list[str
 
 def get_project_distributions(all_results):
     """
-    Calculate distributions of project years, institutes, and activity codes.
+    Calculate distributions of project years, institutes, activity codes,
+    organizations, funding mechanisms, active status, and award amounts.
 
     Args:
         all_results (dict): API response containing grant data
     Returns:
-        tuple: (project_ids, year_distribution, institute_distribution, activity_code_distribution)
+        dict: Dictionary containing:
+            - project_ids: List of project ID dicts
+            - year_distribution: Counter of fiscal years
+            - institute_distribution: Counter of NIH institutes/centers
+            - activity_code_distribution: Counter of activity codes
+            - organization_distribution: Counter of organization names
+            - funding_mechanism_distribution: Counter of funding mechanisms
+            - active_status_distribution: Counter of active/inactive status
+            - award_amount_stats: Dict with total, average, min, max award amounts
     """
 
     results = all_results.get("results", [])
-        
+
     # Extract project IDs - handle case where individual results might be strings
     project_ids = []
     for r in results:
         if isinstance(r, dict) and r.get("project_num"):
             project_ids.append({"project_num": r.get("project_num")})
-    
+
     # Calculate distributions
     from collections import Counter
-    
+
     # Year distribution - only process dict results
     year_dist = Counter(
-        r.get("fiscal_year") 
-        for r in results 
+        r.get("fiscal_year")
+        for r in results
         if isinstance(r, dict) and r.get("fiscal_year")
     )
-    
+
     # Institute/Center distribution
     ic_dist = Counter(
-        r.get("agency_ic_admin") 
-        for r in results 
+        r.get("agency_ic_admin")
+        for r in results
         if isinstance(r, dict) and r.get("agency_ic_admin")
     )
-    
+
     # Activity code distribution
     activity_dist = Counter(
-        r.get("activity_code") 
-        for r in results 
+        r.get("activity_code")
+        for r in results
         if isinstance(r, dict) and r.get("activity_code")
     )
-    
-    return project_ids, year_dist, ic_dist, activity_dist
+
+    # Organization distribution (uses org_name from clean_json)
+    org_dist = Counter(
+        r.get("org_name")
+        for r in results
+        if isinstance(r, dict) and r.get("org_name")
+    )
+
+    # Funding mechanism distribution
+    funding_mech_dist = Counter(
+        r.get("funding_mechanism")
+        for r in results
+        if isinstance(r, dict) and r.get("funding_mechanism")
+    )
+
+    # Active status distribution
+    active_dist = Counter(
+        "Active" if r.get("is_active") else "Inactive"
+        for r in results
+        if isinstance(r, dict) and r.get("is_active") is not None
+    )
+
+    # Award amount statistics
+    award_amounts = [
+        r.get("award_amount")
+        for r in results
+        if isinstance(r, dict) and r.get("award_amount") is not None
+    ]
+
+    if award_amounts:
+        award_stats = {
+            "total": sum(award_amounts),
+            "average": sum(award_amounts) / len(award_amounts),
+            "min": min(award_amounts),
+            "max": max(award_amounts),
+            "count": len(award_amounts)
+        }
+    else:
+        award_stats = {
+            "total": 0,
+            "average": 0,
+            "min": 0,
+            "max": 0,
+            "count": 0
+        }
+
+    return {
+        "project_ids": project_ids,
+        "year_distribution": year_dist,
+        "institute_distribution": ic_dist,
+        "activity_code_distribution": activity_dist,
+        "organization_distribution": org_dist,
+        "funding_mechanism_distribution": funding_mech_dist,
+        "active_status_distribution": active_dist,
+        "award_amount_stats": award_stats
+    }
