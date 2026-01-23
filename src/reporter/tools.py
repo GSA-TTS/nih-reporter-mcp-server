@@ -156,28 +156,28 @@ def register_tools(mcp):
             "has_more_results": total_projects > len(project_ids),
         }
         
-    @mcp.tool()
-    async def get_project_descriptions(project_ids: list[ProjectNum]):
-        """
-        Tool to get all available project information including full title and abstract text.
-        Use this to answer questions related to the content of the project. 
+    # @mcp.tool()
+    # async def get_project_descriptions(project_ids: list[ProjectNum]):
+    #     """
+    #     Tool to get all available project information including full title and abstract text.
+    #     Use this to answer questions related to the content of the project. 
         
-        Args:
-            project_ids (list[ProjectNum]): project ID numbers 
+    #     Args:
+    #         project_ids (list[ProjectNum]): project ID numbers 
                 
-        Returns:
-            dict: API response containing full project information including title and abstract text 
-        """
+    #     Returns:
+    #         dict: API response containing full project information including title and abstract text 
+    #     """
 
-        limit = 25 
-        include_fields = None 
+    #     limit = 25 
+    #     include_fields = None 
 
-        # add project_ids to a search_params object
-        search_params = SearchParams(
-            project_nums=project_ids
-        )
+    #     # add project_ids to a search_params object
+    #     search_params = SearchParams(
+    #         project_nums=project_ids
+    #     )
 
-        return await get_all_responses(search_params, include_fields, limit)
+    #     return await get_all_responses(search_params, include_fields, limit)
         
     @mcp.tool()
     async def get_project_information(
