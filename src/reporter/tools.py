@@ -1,6 +1,6 @@
 from typing import Optional, List
 from reporter.utils import get_all_responses, get_initial_response, get_project_distributions
-from reporter.models import SearchParams, ProjectNum, NIHAgency, StateCode
+from reporter.models import SearchParams, ProjectNum, NIHAgency, StateCode, IncludeField
 from fastmcp import Context
 
 def register_tools(mcp):
@@ -24,7 +24,7 @@ def register_tools(mcp):
         """
 
         # Minimal fields needed - just need the count from meta
-        include_fields = ["ProjectNum"]
+        include_fields = [IncludeField.PROJECT_NUM.value]
 
         # Get initial response with limit of 1 (we only need the count)
         total_projects, _ = await get_initial_response(
@@ -80,10 +80,10 @@ def register_tools(mcp):
 
         # Get results with distribution fields
         include_fields = [
-            "ProjectNum",
-            "FiscalYear",
-            "AgencyIcAdmin",
-            "ActivityCode",
+            IncludeField.PROJECT_NUM.value,
+            IncludeField.FISCAL_YEAR.value,
+            IncludeField.AGENCY_IC_ADMIN.value,
+            IncludeField.ACTIVITY_CODE.value,
         ]
         limit = 500
 
@@ -130,10 +130,10 @@ def register_tools(mcp):
         
         # Get data with fields needed for distributions
         include_fields = [
-            "ProjectNum",
-            "FiscalYear",
-            "AgencyIcAdmin",  # NIH Institute/Center
-            "ActivityCode",   # Grant type (R01, F32, etc.)
+            IncludeField.PROJECT_NUM.value,
+            IncludeField.FISCAL_YEAR.value,
+            IncludeField.AGENCY_IC_ADMIN.value,
+            IncludeField.ACTIVITY_CODE.value,
         ]
         
         # Get initial response (limit 500 for initial search)
@@ -180,35 +180,33 @@ def register_tools(mcp):
         return await get_all_responses(search_params, include_fields, limit)
         
     @mcp.tool()
-    async def get_project_information(project_ids: list[ProjectNum]):
+    async def get_project_information(
+        project_ids: list[ProjectNum],
+        include_fields: List[IncludeField],
+    ):
         """
-        Tool to get specified metadata for a project based on project number. 
+        Tool to get specified metadata for a project based on project number.
         Use this to answer questions about award amounts, organizations, PIs, etc.
-        
+
         Args:
-            project_ids (list[ProjectNum]): project ID numbers 
-                
+            project_ids (list[ProjectNum]): project ID numbers
+            include_fields (List[IncludeField]): List of fields to return from the API.
+                Choose fields relevant to the query (e.g., AWARD_AMOUNT for funding questions,
+                PRINCIPAL_INVESTIGATORS for PI questions, ORGANIZATION for institution questions).
+
         Returns:
             dict: API response with specified project metadata
         """
 
-        limit = 100 
-        include_fields = [
-            "FiscalYear",
-            "PrincipalInvestigators",
-            "ActivityCode",
-            "ProjectNum",
-            "AgencyIcAdmin",
-            "CongDist",
-            "AgencyCode",
-            "AwardAmount",
-            "Organization"
-        ]
+        limit = 100
+
+        # Convert IncludeField enums to their string values
+        field_values = [f.value for f in include_fields]
 
         # add project_ids to a search_params object
         search_params = SearchParams(
             project_nums=project_ids
         )
 
-        # Call the API 
-        return await get_all_responses(search_params, include_fields, limit)
+        # Call the API
+        return await get_all_responses(search_params, field_values, limit)

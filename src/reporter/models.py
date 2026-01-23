@@ -241,6 +241,75 @@ class FundingMechanism(str, Enum):
     INTRAMURAL = "IM"
     OTHER = "Other"
 
+
+class IncludeField(str, Enum):
+    """Valid field names for the include_fields parameter in NIH RePORTER API queries."""
+    # Project identifiers
+    APPL_ID = "ApplId"
+    SUBPROJECT_ID = "SubprojectId"
+    PROJECT_NUM = "ProjectNum"
+    PROJECT_SERIAL_NUM = "ProjectSerialNum"
+    CORE_PROJECT_NUM = "CoreProjectNum"
+    PROJECT_NUM_SPLIT = "ProjectNumSplit"
+
+    # Dates and timing
+    FISCAL_YEAR = "FiscalYear"
+    PROJECT_START_DATE = "ProjectStartDate"
+    PROJECT_END_DATE = "ProjectEndDate"
+    AWARD_NOTICE_DATE = "AwardNoticeDate"
+    BUDGET_START = "BudgetStart"
+    BUDGET_END = "BudgetEnd"
+    DATE_ADDED = "DateAdded"
+
+    # Funding and costs
+    AWARD_AMOUNT = "AwardAmount"
+    DIRECT_COST_AMT = "DirectCostAmt"
+    INDIRECT_COST_AMT = "IndirectCostAmt"
+    AWARD_TYPE = "AwardType"
+    ACTIVITY_CODE = "ActivityCode"
+    FUNDING_MECHANISM = "FundingMechanism"
+    MECHANISM_CODE_DC = "MechanismCodeDc"
+    CFDA_CODE = "CfdaCode"
+
+    # Organization
+    ORGANIZATION = "Organization"
+    ORGANIZATION_TYPE = "OrganizationType"
+    CONG_DIST = "CongDist"
+    GEO_LAT_LON = "GeoLatLon"
+
+    # Personnel
+    PRINCIPAL_INVESTIGATORS = "PrincipalInvestigators"
+    CONTACT_PI_NAME = "ContactPiName"
+    PROGRAM_OFFICERS = "ProgramOfficers"
+
+    # Agency
+    AGENCY_CODE = "AgencyCode"
+    AGENCY_IC_ADMIN = "AgencyIcAdmin"
+    AGENCY_IC_FUNDINGS = "AgencyIcFundings"
+
+    # Project content
+    PROJECT_TITLE = "ProjectTitle"
+    ABSTRACT_TEXT = "AbstractText"
+    PHR_TEXT = "PhrText"
+    TERMS = "Terms"
+    PREF_TERMS = "PrefTerms"
+
+    # Categories and classifications
+    SPENDING_CATEGORIES = "SpendingCategories"
+    SPENDING_CATEGORIES_DESC = "SpendingCategoriesDesc"
+    FULL_STUDY_SECTION = "FullStudySection"
+    OPPORTUNITY_NUMBER = "OpportunityNumber"
+
+    # Status flags
+    IS_ACTIVE = "IsActive"
+    IS_NEW = "IsNew"
+    ARRA_FUNDED = "ArraFunded"
+    COVID_RESPONSE = "CovidResponse"
+
+    # Other
+    PROJECT_DETAIL_URL = "ProjectDetailUrl"
+
+
 class SearchParams(BaseModel):
     # optional filters  
     advanced_text_search: Optional[AdvancedTextSearch] = Field(None, description="text search string and search parameters")
