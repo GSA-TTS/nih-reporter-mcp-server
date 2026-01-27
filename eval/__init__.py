@@ -1,11 +1,8 @@
-"""MCP Server Evaluation Framework for NIH RePORTER."""
+"""MCP Server Evaluation for NIH RePORTER.
 
-from .evaluator import Evaluator
-from .eval_methods import evaluate_numeric, evaluate_string, evaluate_llm_judge
+This module uses the mcp-data-check package to evaluate MCP server responses.
+"""
 
-__all__ = [
-    "Evaluator",
-    "evaluate_numeric",
-    "evaluate_string",
-    "evaluate_llm_judge",
-]
+from mcp_data_check import run_evaluation
+
+__all__ = ["run_evaluation"]
