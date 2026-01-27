@@ -1,0 +1,95 @@
+{
+  "summary": {
+    "total": 5,
+    "passed": 2,
+    "failed": 3,
+    "pass_rate": 0.4,
+    "by_eval_type": {
+      "numeric": {
+        "total": 3,
+        "passed": 0
+      },
+      "string": {
+        "total": 2,
+        "passed": 2
+      }
+    }
+  },
+  "results": [
+    {
+      "question": "How many total projects are in NIH RePORTER for fiscal year 2024?",
+      "expected_answer": "83475",
+      "eval_type": "numeric",
+      "model_response": "I'll search for all projects in NIH RePORTER for fiscal year 2024 to get the total count.\nBased on the search results, there are **79,670 total projects** in NIH RePORTER for fiscal year 2024.\n\nThe search returned a sample of 500 projects (as shown in the year_distribution showing only 500 for 2024), but the `total_projects` field indicates the complete count of all projects in the database for that fiscal year is 79,670.\n\nThis represents all NIH-funded projects that were active during fiscal year 2024, spanning across various NIH institutes and centers, with different types of grants and funding mechanisms.",
+      "passed": false,
+      "details": {
+        "passed": false,
+        "extracted_value": 2024.0,
+        "expected_value": 83475.0,
+        "details": "Difference: 97.58% (tolerance: 5.00%)"
+      },
+      "error": null
+    },
+    {
+      "question": "What is the project title for grant 5R42DE030040-03?",
+      "expected_answer": "Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist",
+      "eval_type": "string",
+      "model_response": "I'll look up the project title for grant 5R42DE030040-03.\nThe project title for grant 5R42DE030040-03 is:\n\n**\"Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist\"**",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "match_type": "exact",
+        "similarity": 1.0,
+        "details": "Found exact match for 'Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist' in response"
+      },
+      "error": null
+    },
+    {
+      "question": "How many R01 grants were funded by NCI in fiscal year 2023?",
+      "expected_answer": "4084",
+      "eval_type": "numeric",
+      "model_response": "I'll search for R01 grants funded by NCI in fiscal year 2023 to get the count.\nBased on the search results, **4,084 R01 grants were funded by NCI in fiscal year 2023**.\n\nThe search returned detailed information showing that these grants were distributed across various institutions, with the University of TX MD Anderson Cancer Center receiving the most R01 grants (20) among the top institutions listed. The total funding amount for the sample of 500 grants shown was over $267 million, with an average award amount of approximately $534,599.\n\nNote that the API returned summary statistics for the first 500 projects, but the total count of 4,084 represents all R01 grants funded by NCI in fiscal year 2023.",
+      "passed": false,
+      "details": {
+        "passed": false,
+        "extracted_value": 1.0,
+        "expected_value": 4084.0,
+        "details": "Difference: 99.98% (tolerance: 5.00%)"
+      },
+      "error": null
+    },
+    {
+      "question": "Who is the principal investigator for a 2P20GM135004-06A1?",
+      "expected_answer": "Sharmila Nair",
+      "eval_type": "string",
+      "model_response": "I'll look up the principal investigator information for project 2P20GM135004-06A1.\nBased on the search results for project 2P20GM135004-06A1, this appears to be a multi-component grant with several principal investigators for different parts of the project:\n\n**Main Grant:** \"Center for Cancer Immunology and Immunotherapy (CCII)\"\n- **Principal Investigator:** Jun Yan\n\nThe project also includes several subcomponents with their respective PIs:\n\n1. **Functional Immunomics Core (FIC)** - PI: Haribabu Bodduluri\n2. **Admin Core** - PI: Jun Yan  \n3. **Research Project 1:** \"The role of ECM-mediated mechanosignaling on regional immunosuppression in GBM\" - PI: Joseph Chen\n4. **Research Project 2:** \"Leveraging Zika virus driven myeloid cell responses to treat GBM\" - PI: Sharmila Nair\n5. **Research Project 3:** \"DP1 receptor signaling in aging-associated immune dysfunction in lung metastases\" - PI: Jian Zheng\n\nThis is a P20 grant, which is typically a Center Core Grant that supports multiple research projects and shared resources under a central theme - in this case, cancer immunology and immunotherapy research.",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "match_type": "exact",
+        "similarity": 1.0,
+        "details": "Found exact match for 'Sharmila Nair' in response"
+      },
+      "error": null
+    },
+    {
+      "question": "How many NIH grants did Purdue University receive in 2019?",
+      "expected_answer": "176",
+      "eval_type": "numeric",
+      "model_response": "I'll help you find information about NIH grants received by Purdue University in 2019. Let me search the NIH RePORTER database for this information.\nBased on my search of the NIH RePORTER database, **Purdue University received 170 NIH grants in 2019**.\n\nHere are some additional details about these grants:\n\n**Top NIH Institutes/Centers funding Purdue:**\n- NCI (National Cancer Institute): 38 grants\n- NIGMS (National Institute of General Medical Sciences): 32 grants\n- NIAID (National Institute of Allergy and Infectious Diseases): 19 grants\n- NIDCD (National Institute on Deafness and Communication Disorders): 18 grants\n\n**Most common grant types:**\n- R01 (Research Project Grants): 74 grants\n- R21 (Exploratory/Developmental Grants): 21 grants\n- P30 (Center Core Grants): 15 grants\n\n**Funding Information:**\n- Total funding amount: $54,959,303\n- Average grant size: $323,290\n\nThis represents a substantial NIH funding portfolio for Purdue University in fiscal year 2019.",
+      "passed": false,
+      "details": {
+        "passed": false,
+        "extracted_value": 2019.0,
+        "expected_value": 176.0,
+        "details": "Difference: 1047.16% (tolerance: 5.00%)"
+      },
+      "error": null
+    }
+  ],
+  "metadata": {
+    "server_url": "https://nih-reporter-mcp-server-turbulent-impala-zh.app.cloud.gov/mcp",
+    "model": "claude-sonnet-4-20250514",
+    "timestamp": "20260127_122000"
+  }
+}

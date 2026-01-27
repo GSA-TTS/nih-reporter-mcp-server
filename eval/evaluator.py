@@ -124,7 +124,10 @@ class Evaluator:
         """
         try:
             if eval_type == "numeric":
-                result = evaluate_numeric(model_response, expected_answer)
+                result = evaluate_numeric(
+                    model_response, expected_answer,
+                    question=question, client=self.client
+                )
             elif eval_type == "string":
                 result = evaluate_string(model_response, expected_answer)
             elif eval_type == "llm_judge":
