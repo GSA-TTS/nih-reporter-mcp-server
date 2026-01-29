@@ -1,0 +1,202 @@
+{
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "by_eval_type": {
+      "numeric": {
+        "total": 3,
+        "passed": 3
+      },
+      "string": {
+        "total": 2,
+        "passed": 2
+      }
+    }
+  },
+  "results": [
+    {
+      "question": "How many total projects are in NIH RePORTER for fiscal year 2024?",
+      "expected_answer": "83475",
+      "eval_type": "numeric",
+      "model_response": "I'll search for all NIH projects in fiscal year 2024 to get the total count.\nBased on the search results, there are **79,670 total projects** in NIH RePORTER for fiscal year 2024.\n\nThe search returned a sample of 500 projects with detailed statistics, but the total count shows all projects that were active or had funding in fiscal year 2024 across all NIH institutes and centers.",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "extracted_value": 79670.0,
+        "expected_value": 83475.0,
+        "extraction_method": "bold_pattern",
+        "details": "Difference: 4.56% (tolerance: 5.00%)"
+      },
+      "error": null,
+      "time_to_answer": 8.41244630003348,
+      "tools_called": [
+        {
+          "tool_name": "search_projects",
+          "server_name": "nih-reporter",
+          "input": {
+            "search_params": {
+              "years": [
+                2024
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "question": "What is the project title for grant 5R42DE030040-03?",
+      "expected_answer": "Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist",
+      "eval_type": "string",
+      "model_response": "I'll look up the project title for grant 5R42DE030040-03.\nThe project title for grant 5R42DE030040-03 is:\n\n**\"Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist\"**",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "match_type": "exact",
+        "similarity": 1.0,
+        "details": "Found exact match for 'Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist' in response"
+      },
+      "error": null,
+      "time_to_answer": 6.195040500024334,
+      "tools_called": [
+        {
+          "tool_name": "get_project_information",
+          "server_name": "nih-reporter",
+          "input": {
+            "project_ids": [
+              {
+                "project_num": "5R42DE030040-03"
+              }
+            ],
+            "include_fields": [
+              "ProjectTitle"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "question": "How many R01 grants were funded by NCI in fiscal year 2023?",
+      "expected_answer": "4084",
+      "eval_type": "numeric",
+      "model_response": "I'll search for R01 grants funded by NCI in fiscal year 2023 to get you the exact count.\nThe search results show that there were **4,084 R01 grants** funded by NCI in fiscal year 2023. \n\nHowever, I notice that the results only show information for 500 projects in the distributions, which suggests this is a sample of the total results. To get the complete and accurate statistics for all 4,084 projects, let me get the comprehensive summary:\nPerfect! The comprehensive summary confirms that **4,084 R01 grants** were funded by NCI (National Cancer Institute) in fiscal year 2023.\n\nAdditional details about these grants:\n- **Total funding amount**: $1,882,958,833 (approximately $1.88 billion)\n- **Average grant amount**: $461,058\n- **Status**: 50 grants were active and 4,034 were inactive as of the time of data collection\n- **Top recipient institutions** included:\n  - University of Texas MD Anderson Cancer Center (150 grants)\n  - Sloan-Kettering Institute for Cancer Research (101 grants)  \n  - University of California, San Francisco (97 grants)\n  - University of Pennsylvania (92 grants)\n  - Stanford University (80 grants)",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "extracted_value": 4084.0,
+        "expected_value": 4084.0,
+        "extraction_method": "bold_pattern",
+        "details": "Difference: 0.00% (tolerance: 5.00%)"
+      },
+      "error": null,
+      "time_to_answer": 23.472298400010914,
+      "tools_called": [
+        {
+          "tool_name": "search_projects",
+          "server_name": "nih-reporter",
+          "input": {
+            "search_params": {
+              "activity_codes": [
+                "R01"
+              ],
+              "agencies": [
+                "NCI"
+              ],
+              "years": [
+                2023
+              ]
+            }
+          }
+        },
+        {
+          "tool_name": "get_search_summary",
+          "server_name": "nih-reporter",
+          "input": {
+            "search_params": {
+              "activity_codes": [
+                "R01"
+              ],
+              "agencies": [
+                "NCI"
+              ],
+              "years": [
+                2023
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "question": "Who is the principal investigator for a 2P20GM135004-06A1?",
+      "expected_answer": "Sharmila Nair",
+      "eval_type": "string",
+      "model_response": "I'll look up the principal investigator information for project 2P20GM135004-06A1.\nBased on the search results for project 2P20GM135004-06A1, this appears to be a multi-component grant with several associated projects. The main project is the **\"Center for Cancer Immunology and Immunotherapy (CCII)\"** with **Jun Yan** as the principal investigator and contact PI.\n\nThe grant includes several components:\n\n1. **Main Center Grant**: Jun Yan (Principal Investigator)\n2. **Admin Core**: Jun Yan (Principal Investigator) \n3. **Functional Immunomics Core (FIC)**: Haribabu Bodduluri (Principal Investigator)\n4. **Research Projects**:\n   - Joseph Chen - \"The role of ECM-mediated mechanosignaling on regional immunosuppression in GBM\"\n   - Sharmila Nair - \"Leveraging Zika virus driven myeloid cell responses to treat GBM\" \n   - Jian Zheng - \"DP1 receptor signaling in aging-associated immune dysfunction in lung metastases\"\n\n**Jun Yan** appears to be the overall principal investigator for the Center for Cancer Immunology and Immunotherapy grant (2P20GM135004-06A1).",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "match_type": "exact",
+        "similarity": 1.0,
+        "details": "Found exact match for 'Sharmila Nair' in response"
+      },
+      "error": null,
+      "time_to_answer": 9.453970900038257,
+      "tools_called": [
+        {
+          "tool_name": "get_project_information",
+          "server_name": "nih-reporter",
+          "input": {
+            "project_ids": [
+              {
+                "project_num": "2P20GM135004-06A1"
+              }
+            ],
+            "include_fields": [
+              "PrincipalInvestigators",
+              "ContactPiName",
+              "ProjectTitle"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "question": "How many NIH grants did Purdue University receive in 2019?",
+      "expected_answer": "176",
+      "eval_type": "numeric",
+      "model_response": "I'll search for NIH grants awarded to Purdue University in 2019.\nBased on the search results, **Purdue University received 170 NIH grants in 2019**.\n\nHere are some additional details about these grants:\n\n**Top NIH Institutes/Centers funding Purdue in 2019:**\n- National Cancer Institute (NCI): 38 grants\n- National Institute of General Medical Sciences (NIGMS): 32 grants  \n- National Institute of Allergy and Infectious Diseases (NIAID): 19 grants\n- National Institute on Deafness and Other Communication Disorders (NIDCD): 18 grants\n\n**Most common grant types:**\n- R01 (Research Project Grants): 74 grants\n- R21 (Exploratory/Developmental Research Grant): 21 grants\n- P30 (Center Core Grants): 15 grants\n\n**Total funding:** Approximately $55 million across all 170 grants, with an average award amount of about $323,290 per grant.",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "extracted_value": 170.0,
+        "expected_value": 176.0,
+        "extraction_method": "answer_phrase",
+        "details": "Difference: 3.41% (tolerance: 5.00%)"
+      },
+      "error": null,
+      "time_to_answer": 49.39145560003817,
+      "tools_called": [
+        {
+          "tool_name": "search_projects",
+          "server_name": "nih-reporter",
+          "input": {
+            "search_params": {
+              "organizations": [
+                "Purdue University"
+              ],
+              "years": [
+                2019
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "server_url": "https://nih-reporter-mcp-server-turbulent-impala-zh.app.cloud.gov/mcp",
+    "model": "claude-sonnet-4-20250514",
+    "timestamp": "20260129_161811"
+  }
+}
