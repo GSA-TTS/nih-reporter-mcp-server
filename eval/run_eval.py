@@ -21,7 +21,9 @@ def main():
     )
     parser.add_argument(
         "server_url",
-        help="URL of the MCP server to evaluate"
+        nargs="?",
+        default=os.environ.get("MCP_SERVER_URL"),
+        help="URL of the MCP server to evaluate (default: MCP_SERVER_URL env var)"
     )
     parser.add_argument(
         "-q", "--questions",
@@ -55,6 +57,11 @@ def main():
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         print("Error: ANTHROPIC_API_KEY environment variable not set", file=sys.stderr)
+        sys.exit(1)
+
+    # Validate server URL
+    if not args.server_url:
+        print("Error: No server URL provided. Set MCP_SERVER_URL environment variable or pass as argument.", file=sys.stderr)
         sys.exit(1)
 
     # Determine paths
