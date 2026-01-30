@@ -694,15 +694,15 @@ cli = [
 
 [[package]]
 name = "mcp-data-check"
-version = "0.3.0"
+version = "0.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anthropic" },
     { name = "python-dotenv" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/94/1c/5c334c633a7fb36fd72e6a5f6173684ec019c6c037968c4d3881d0d556b9/mcp_data_check-0.3.0.tar.gz", hash = "sha256:6785cdc143e4da9512fb8eac3637c8a80fecf7e2c4d10127ed8d5ad518e480d7", size = 68929, upload-time = "2026-01-29T21:11:55.283Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/84/76/e6dd679d8959d93c0d3adfa7e854b2a813f92e036e5fb0bc3e90835b99a1/mcp_data_check-0.4.1.tar.gz", hash = "sha256:0467a1f3f78de8ace49c518027f4a8c6ba2e0c08a61051f162be875bd747ee00", size = 69481, upload-time = "2026-01-30T01:44:49.065Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/a7/7239ffc782d30f74179b7685d6ee849ad1172f3465b4cec04277596843db/mcp_data_check-0.3.0-py3-none-any.whl", hash = "sha256:c63f43855bf151b4bd366da7ca824b5d8c8be3b65da8dab1d84e20746b9053c5", size = 12430, upload-time = "2026-01-29T21:11:54.165Z" },
+    { url = "https://files.pythonhosted.org/packages/e1/f9/3ebb8d657f9ec13ae87edec381506809a7ea42ec14e5e6a395f908fe7286/mcp_data_check-0.4.1-py3-none-any.whl", hash = "sha256:9f07b553afddd3a1c0b95c2a956fc289b4ae331f5ced3dd028a81cd2a47285d5", size = 13015, upload-time = "2026-01-30T01:44:47.413Z" },
 ]
 
 [[package]]

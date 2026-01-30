@@ -1,0 +1,220 @@
+{
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "by_eval_type": {
+      "numeric": {
+        "total": 3,
+        "passed": 3
+      },
+      "string": {
+        "total": 2,
+        "passed": 2
+      }
+    }
+  },
+  "results": [
+    {
+      "question": "How many total projects are in NIH RePORTER for fiscal year 2024?",
+      "expected_answer": "83475",
+      "eval_type": "numeric",
+      "model_response": "I'll search for the total number of projects in NIH RePORTER for fiscal year 2024.\nBased on the search results, there are **79,670 total projects** in NIH RePORTER for fiscal year 2024.\n\nThe search returned a sample of 500 projects from this total, showing the distribution across different NIH institutes, activity codes, and organizations. The results indicate this represents the complete count of all NIH projects that were active or had funding in fiscal year 2024.",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "extracted_value": 79670.0,
+        "expected_value": 83475.0,
+        "extraction_method": "bold_pattern",
+        "details": "Difference: 4.56% (tolerance: 5.00%)"
+      },
+      "error": null,
+      "time_to_answer": 7.836657700128853,
+      "tools_called": [
+        {
+          "tool_name": "search_projects",
+          "server_name": "nih-reporter",
+          "input": {
+            "search_params": {
+              "years": [
+                2024
+              ]
+            }
+          },
+          "api_response": [
+            {
+              "citations": null,
+              "text": "{\"total_projects\":79670,\"year_distribution\":{\"2024\":500},\"institute_distribution\":{\"NIA\":84,\"NIDA\":73,\"NHLBI\":58,\"NEI\":53,\"NIAID\":40,\"NIMH\":33,\"NIGMS\":29,\"NICHD\":26,\"NCI\":17,\"NIAAA\":13,\"NINDS\":13,\"NIDCR\":13,\"NIDDK\":12,\"NIDCD\":7,\"NHGRI\":6},\"activity_code_distribution\":{\"F31\":122,\"R01\":100,\"F32\":60,\"R21\":41,\"F30\":24,\"N01\":19,\"P20\":16,\"N02\":13,\"R61\":11,\"R56\":9,\"U01\":8,\"R43\":7,\"R03\":6,\"K23\":5,\"RF1\":5},\"organization_distribution\":{\"JOHNS HOPKINS UNIVERSITY\":14,\"YALE UNIVERSITY\":13,\"EMORY UNIVERSITY\":12,\"UNIVERSITY OF CALIFORNIA, SAN FRANCISCO\":11,\"WASHINGTON UNIVERSITY\":11,\"UNIV OF NORTH CAROLINA CHAPEL HILL\":10,\"COLUMBIA UNIVERSITY HEALTH SCIENCES\":9,\"UNIVERSITY OF PITTSBURGH AT PITTSBURGH\":9,\"UNIVERSITY OF WISCONSIN-MADISON\":9,\"DUKE UNIVERSITY\":9,\"UNIVERSITY OF SOUTHERN CALIFORNIA\":9,\"UNIVERSITY OF CALIFORNIA, SAN DIEGO\":7,\"VANDERBILT UNIVERSITY\":7,\"UNIVERSITY OF KENTUCKY\":7,\"UNIVERSITY OF ALABAMA AT BIRMINGHAM\":7},\"funding_mechanism_distribution\":{\"Training, Individual\":206,\"Non-SBIR/STTR\":205,\"R and D Contracts\":33,\"Other Research-Related\":22,\"Research Centers\":20,\"SBIR/STTR\":14},\"active_status_distribution\":{\"Active\":126,\"Inactive\":374},\"award_amount_stats\":{\"total\":229559962,\"average\":459119.924,\"min\":1,\"max\":12038222,\"count\":500}}",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "What is the project title for grant 5R42DE030040-03?",
+      "expected_answer": "Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist",
+      "eval_type": "string",
+      "model_response": "I'll look up the project title for grant 5R42DE030040-03.\nThe project title for grant 5R42DE030040-03 is:\n\n**\"Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist\"**",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "match_type": "exact",
+        "similarity": 1.0,
+        "details": "Found exact match for 'Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist' in response"
+      },
+      "error": null,
+      "time_to_answer": 6.117765800096095,
+      "tools_called": [
+        {
+          "tool_name": "get_project_information",
+          "server_name": "nih-reporter",
+          "input": {
+            "project_ids": [
+              {
+                "project_num": "5R42DE030040-03"
+              }
+            ],
+            "include_fields": [
+              "ProjectTitle"
+            ]
+          },
+          "api_response": [
+            {
+              "citations": null,
+              "text": "{\"meta\":{\"search_id\":\"OGehq5Qwsk2KRH13_SpqWg\",\"total\":1,\"offset\":0,\"limit\":500,\"sort_field\":\"project_start_date\",\"sort_order\":\"desc\",\"sorted_by_relevance\":true,\"properties\":{\"URL\":\"https:/reporter.nih.gov/search/OGehq5Qwsk2KRH13_SpqWg/projects\"}},\"results\":[{\"project_title\":\"Disseminable Evidence-Based Treatment for the Dental Office: Virtual Exposure Tools for Dental Fear - neVR Fear the Dentist\"}]}",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "How many R01 grants were funded by NCI in fiscal year 2023?",
+      "expected_answer": "4084",
+      "eval_type": "numeric",
+      "model_response": "I'll search for R01 grants funded by NCI in fiscal year 2023 to get the exact count.\nBased on the search results, **4,084 R01 grants were funded by NCI in fiscal year 2023**.\n\nThe search returned detailed statistics showing that this represents a substantial portion of NCI's R01 portfolio for that year. The results also show the distribution across various institutions, with MD Anderson Cancer Center, Fred Hutchinson Cancer Center, and Sloan-Kettering Institute for Cancer Research being among the top recipients of R01 grants from NCI in 2023.",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "extracted_value": 4084.0,
+        "expected_value": 4084.0,
+        "extraction_method": "bold_pattern",
+        "details": "Difference: 0.00% (tolerance: 5.00%)"
+      },
+      "error": null,
+      "time_to_answer": 8.383016600040719,
+      "tools_called": [
+        {
+          "tool_name": "search_projects",
+          "server_name": "nih-reporter",
+          "input": {
+            "search_params": {
+              "activity_codes": [
+                "R01"
+              ],
+              "agencies": [
+                "NCI"
+              ],
+              "years": [
+                2023
+              ]
+            }
+          },
+          "api_response": [
+            {
+              "citations": null,
+              "text": "{\"total_projects\":4084,\"year_distribution\":{\"2023\":500},\"institute_distribution\":{\"NCI\":500},\"activity_code_distribution\":{\"R01\":500},\"organization_distribution\":{\"UNIVERSITY OF TX MD ANDERSON CAN CTR\":20,\"FRED HUTCHINSON CANCER CENTER\":15,\"SLOAN-KETTERING INST CAN RESEARCH\":14,\"OHIO STATE UNIVERSITY\":14,\"WEILL MEDICAL COLL OF CORNELL UNIV\":12,\"BRIGHAM AND WOMEN'S HOSPITAL\":11,\"UT SOUTHWESTERN MEDICAL CENTER\":11,\"DUKE UNIVERSITY\":11,\"JOHNS HOPKINS UNIVERSITY\":11,\"UNIVERSITY OF SOUTHERN CALIFORNIA\":10,\"UNIVERSITY OF PITTSBURGH AT PITTSBURGH\":10,\"UNIVERSITY OF CALIFORNIA, SAN DIEGO\":9,\"VANDERBILT UNIVERSITY MEDICAL CENTER\":9,\"UNIVERSITY OF CALIFORNIA, SAN FRANCISCO\":9,\"MASSACHUSETTS GENERAL HOSPITAL\":9},\"funding_mechanism_distribution\":{\"Non-SBIR/STTR\":500},\"active_status_distribution\":{\"Active\":3,\"Inactive\":497},\"award_amount_stats\":{\"total\":267299671,\"average\":534599.342,\"min\":1,\"max\":1268206,\"count\":500}}",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "Who is the principal investigator for a 2P20GM135004-06A1?",
+      "expected_answer": "Sharmila Nair",
+      "eval_type": "string",
+      "model_response": "I'll look up the principal investigator information for project 2P20GM135004-06A1.\nBased on the search results for project 2P20GM135004-06A1, this appears to be a multi-component center grant with several principal investigators for different components:\n\n**Main Center Grant:**\n- **Principal Investigator: Jun Yan** for the \"Center for Cancer Immunology and Immunotherapy (CCII)\"\n\n**Individual Project Components:**\n- **Haribabu Bodduluri** - Functional Immunomics Core (FIC)\n- **Jun Yan** - Admin Core  \n- **Joseph Chen** - \"The role of ECM-mediated mechanosignaling on regional immunosuppression in GBM\"\n- **Sharmila Nair** - \"Leveraging Zika virus driven myeloid cell responses to treat GBM\"\n- **Jian Zheng** - \"DP1 receptor signaling in aging-associated immune dysfunction in lung metastases\"\n\nThe overall principal investigator for this P20 center grant (Center for Cancer Immunology and Immunotherapy) is **Jun Yan**.",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "match_type": "exact",
+        "similarity": 1.0,
+        "details": "Found exact match for 'Sharmila Nair' in response"
+      },
+      "error": null,
+      "time_to_answer": 9.665809200145304,
+      "tools_called": [
+        {
+          "tool_name": "get_project_information",
+          "server_name": "nih-reporter",
+          "input": {
+            "project_ids": [
+              {
+                "project_num": "2P20GM135004-06A1"
+              }
+            ],
+            "include_fields": [
+              "PrincipalInvestigators",
+              "ContactPiName",
+              "ProjectTitle"
+            ]
+          },
+          "api_response": [
+            {
+              "citations": null,
+              "text": "{\"meta\":{\"search_id\":\"C5xS27a5nUiUQUu3cahgrA\",\"total\":6,\"offset\":0,\"limit\":500,\"sort_field\":\"project_start_date\",\"sort_order\":\"desc\",\"sorted_by_relevance\":true,\"properties\":{\"URL\":\"https:/reporter.nih.gov/search/C5xS27a5nUiUQUu3cahgrA/projects\"}},\"results\":[{\"principal_investigators\":[\"HARIBABU  BODDULURI\"],\"contact_pi_name\":\"BODDULURI, HARIBABU \",\"project_title\":\"Center for Cancer Immunology and Immunotherapy (CCII) - Functional Immunomics Core (FIC)\"},{\"principal_investigators\":[\"JUN  YAN\"],\"contact_pi_name\":\"YAN, JUN \",\"project_title\":\"Center for Cancer Immunology and Immunotherapy (CCII) - Admin Core\"},{\"principal_investigators\":[\"Joseph  Chen\"],\"contact_pi_name\":\"CHEN, JOSEPH \",\"project_title\":\"The role of ECM-mediated mechanosignaling on regional immunosuppression in GBM\"},{\"principal_investigators\":[\"JUN  YAN\"],\"contact_pi_name\":\"YAN, JUN \",\"project_title\":\"Center for Cancer Immunology and Immunotherapy (CCII)\"},{\"principal_investigators\":[\"Sharmila  Nair\"],\"contact_pi_name\":\"NAIR, SHARMILA \",\"project_title\":\"Leveraging Zika virus driven myeloid cell responses to treat GBM\"},{\"principal_investigators\":[\"Jian  Zheng\"],\"contact_pi_name\":\"ZHENG, JIAN \",\"project_title\":\"DP1 receptor signaling in aging-associated immune dysfunction in lung metastases\"}]}",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "How many NIH grants did Purdue University receive in 2019?",
+      "expected_answer": "176",
+      "eval_type": "numeric",
+      "model_response": "I'll search for NIH grants awarded to Purdue University in 2019.\nBased on the search results, **Purdue University received 170 NIH grants in 2019**.\n\nHere are some additional details about these grants:\n\n**Top funding institutes:**\n- National Cancer Institute (NCI): 38 grants\n- National Institute of General Medical Sciences (NIGMS): 32 grants  \n- National Institute of Allergy and Infectious Diseases (NIAID): 19 grants\n- National Institute on Deafness and Other Communication Disorders (NIDCD): 18 grants\n\n**Most common grant types:**\n- R01 (Research Project Grants): 74 grants\n- R21 (Exploratory/Developmental Research Grants): 21 grants\n- P30 (Center Core Grants): 15 grants\n\n**Total funding:** $54,959,303 across all 170 grants, with an average award amount of $323,290 per grant.",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "extracted_value": 170.0,
+        "expected_value": 176.0,
+        "extraction_method": "answer_phrase",
+        "details": "Difference: 3.41% (tolerance: 5.00%)"
+      },
+      "error": null,
+      "time_to_answer": 51.340779199963436,
+      "tools_called": [
+        {
+          "tool_name": "search_projects",
+          "server_name": "nih-reporter",
+          "input": {
+            "search_params": {
+              "organizations": [
+                "Purdue University"
+              ],
+              "years": [
+                2019
+              ]
+            }
+          },
+          "api_response": [
+            {
+              "citations": null,
+              "text": "{\"total_projects\":170,\"year_distribution\":{\"2019\":170},\"institute_distribution\":{\"NCI\":38,\"NIGMS\":32,\"NIAID\":19,\"NIDCD\":18,\"NIDDK\":8,\"NICHD\":6,\"NIAMS\":6,\"OD\":5,\"NIEHS\":5,\"NHLBI\":5,\"NIDA\":5,\"NIMH\":5,\"NINDS\":4,\"NIA\":4,\"NIBIB\":4},\"activity_code_distribution\":{\"R01\":74,\"R21\":21,\"P30\":15,\"R35\":9,\"R03\":8,\"F31\":5,\"T32\":5,\"K01\":4,\"R25\":4,\"R37\":3,\"U01\":3,\"S10\":2,\"R56\":2,\"R13\":2,\"OT2\":2},\"organization_distribution\":{\"PURDUE UNIVERSITY\":170},\"funding_mechanism_distribution\":{\"Non-SBIR/STTR\":126,\"Other Research-Related\":15,\"Research Centers\":15,\"Training, Individual\":7,\"Training, Institutional\":5,\"Other\":2},\"active_status_distribution\":{\"Inactive\":170},\"award_amount_stats\":{\"total\":54959303,\"average\":323290.0176470588,\"min\":12000,\"max\":3647287,\"count\":170}}",
+              "type": "text"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "server_url": "https://nih-reporter-mcp-server-turbulent-impala-zh.app.cloud.gov/mcp",
+    "model": "claude-sonnet-4-20250514",
+    "timestamp": "20260129_204710"
+  }
+}

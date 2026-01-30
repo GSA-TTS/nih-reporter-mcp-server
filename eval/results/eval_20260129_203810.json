@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "pass_rate": 1.0,
+    "by_eval_type": {
+      "numeric": {
+        "total": 3,
+        "passed": 3
+      },
+      "string": {
+        "total": 2,
+        "passed": 2
+      }
+    }
+  },
+  "results": [
+    {
+      "question": "How many total projects are in NIH RePORTER for fiscal year 2024?",
+      "expected_answer": "83475",
+      "eval_type": "numeric",
+      "model_response": "I'll search for all NIH projects in fiscal year 2024 to get the total count.\nBased on the search results, there are **79,670 total projects** in NIH RePORTER for fiscal year 2024.\n\nThe search returned a sample of 500 projects from this total, showing the distribution across different NIH institutes, with the National Institute on Aging (NIA) having the most projects in the sample (84), followed by the National Institute on Drug Abuse (NIDA) with 73 projects, and the National Heart, Lung, and Blood Institute (NHLBI) with 58 projects.",
+      "passed": true,
+      "details": {
+        "passed": true,
+        "extracted_value": 79670.0,
+        "expected_value": 83475.0,
+        "extraction_method": "bold_pattern",
+        "details": "Difference: 4.56% (tolerance: 5.00%)"
+      },
+      "error": null,
+      "time_to_answer": 8.56302409991622,
+      "tools_called": [
+        {
+          "tool_name": "search_projects",
+          "server_name": "nih-reporter",
+          "input": {
+            "search_params": {
+              "years": [
+                2024
+              ]
+            }
+          },
+          "api_response": [
+            
