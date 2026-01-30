@@ -127,6 +127,36 @@ def main():
 
     print(f"\nResults saved to: {output_path}")
 
+    # Update badge.json for GitHub README
+    badge_path = eval_dir / "badge.json"
+    pass_rate = summary["pass_rate"]
+    pass_pct = int(pass_rate * 100)
+
+    # Determine badge color based on pass rate
+    if pass_rate == 1.0:
+        color = "brightgreen"
+    elif pass_rate >= 0.8:
+        color = "green"
+    elif pass_rate >= 0.6:
+        color = "yellow"
+    elif pass_rate >= 0.4:
+        color = "orange"
+    else:
+        color = "red"
+
+    badge_data = {
+        "schemaVersion": 1,
+        "label": "eval",
+        "message": f"{pass_pct}% passing",
+        "color": color
+    }
+
+    with open(badge_path, "w", encoding="utf-8") as f:
+        json.dump(badge_data, f, indent=2)
+        f.write("\n")
+
+    print(f"Badge updated: {badge_path}")
+
     # Exit with non-zero if any failures
     sys.exit(0 if summary["failed"] == 0 else 1)
 

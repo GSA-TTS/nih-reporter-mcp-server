@@ -1,4 +1,6 @@
-# NIH RePORTER MCP Server 
+# NIH RePORTER MCP Server
+
+![Eval](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/GSA-TTS/nih-reporter-mcp-server/main/eval/badge.json)
 
 ⚠️ DISCLAIMER: This is a proof of concept and is not intended for production use.
 
