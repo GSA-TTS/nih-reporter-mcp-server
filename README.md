@@ -1,16 +1,17 @@
 # NIH RePORTER MCP Server
 
-![Eval](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/GSA-TTS/nih-reporter-mcp-server/main/eval/badge.json)
+[![mcp-data-check](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/GSA-TTS/nih-reporter-mcp-server/main/eval/badge.json)](https://github.com/GSA-TTS/mcp-data-check)
 
 ⚠️ DISCLAIMER: This is a proof of concept and is not intended for production use.
 
-## 📖 Overview 
+## 📖 Overview
 
-This project is a pilot study for the creation of an MCP server for the NIH's grant database: RePORTER. The server contains three tools, which vary in amount of detail. In order from broadest to deepest: 
+This project is a pilot study for the creation of an MCP server for the NIH's grant database: RePORTER. The server provides four tools:
 
-- **get_all_projects_by_ic**: performs a basic search to get all projects associated with search criteria (such as all projects from a given institute in a given year or all projects to a given state or specific research organization). 
-- **project_text_search**: performs a text search to find projects relevant to a topic area or methodology. 
-- **get_project_details**: performs a search to get all project details for a small number (less than 10) projects by their project ID. 
+- **search_projects**: Performs an initial search and returns the count of matching projects along with distribution statistics (institutes, activity codes, organizations, funding). Samples the first 500 results for quick previews.
+- **get_search_summary**: Fetches ALL matching projects to provide complete, accurate statistics. Use this when you need exact totals (e.g., "total funding for cancer research"). Slower for large result sets.
+- **find_project_ids**: Returns up to 500 project IDs matching search criteria, plus overview statistics. Use this to identify specific grants for further detail retrieval.
+- **get_project_information**: Retrieves detailed metadata for specific projects by their project number. Use this to get award amounts, principal investigators, abstracts, organizations, and other project details.
 
 Each tool is registered with the MCP server and can be called by an LLM or other MCP client. 
 
