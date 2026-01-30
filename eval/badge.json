@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "label": "eval",
+  "label": "mcp-data-check",
   "message": "100% passing",
   "color": "brightgreen"
 }

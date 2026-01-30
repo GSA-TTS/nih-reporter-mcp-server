@@ -146,7 +146,7 @@ def main():
 
     badge_data = {
         "schemaVersion": 1,
-        "label": "eval",
+        "label": "mcp-data-check",
         "message": f"{pass_pct}% passing",
         "color": color
     }
