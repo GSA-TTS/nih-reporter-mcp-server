@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, field_validator
 from enum import Enum 
-from typing import Optional, List, Union
+from typing import Optional, List
 
 class NIHAgency(Enum): 
     CLC = "CLC"
@@ -111,9 +111,13 @@ class AdvancedTextSearch(BaseModel):
         default=SearchOperator.AND,
         description="How to combine multiple search terms (defaults to AND)"
     )
-    search_field: Union[SearchField, List[SearchField]] = Field(
-        default=[SearchField.PROJECT_TITLE,SearchField.ABSTRACT,SearchField.TERMS],
-        description="Single field or list of fields to search"
+    search_field: List[SearchField] = Field(
+        default=[SearchField.PROJECT_TITLE, SearchField.ABSTRACT, SearchField.TERMS],
+        description=(
+            "One or more fields to search within. Choose any combination of: "
+            "'projecttitle' (project title), 'abstract' (project abstract), "
+            "'terms' (indexed NIH scientific terms). Defaults to all three."
+        )
     )
     search_text: str = Field(
         ..., 
