@@ -310,6 +310,18 @@ class IncludeField(str, Enum):
     PROJECT_DETAIL_URL = "ProjectDetailUrl"
 
 
+class ApplicationType(str, Enum):
+    """Single-digit code identifying the type of NIH grant application."""
+    NEW = "1"
+    COMPETING_CONTINUATION = "2"
+    SUPPLEMENTAL = "3"
+    COMPETING_EXTENSION = "4C"
+    NONCOMPETING_EXTENSION = "4N"
+    NONCOMPETING_CONTINUATION = "5"
+    CHANGE_OF_INSTITUTION = "7"
+    CHANGE_OF_DIVISION = "9"
+
+
 class POName(BaseModel):
     """Program Officer name search criteria. All fields are wildcard-enabled partial match."""
     any_name: Optional[str] = Field(None, description="Search across all name fields (first, last, full name)")
@@ -330,6 +342,7 @@ class SearchParams(BaseModel):
     opportunity_numbers: Optional[List[str]] = Field(None, description="Funding opportunity number(s) associated with the grant (e.g. 'PAR-21-293')")
     activity_codes: Optional[List[str]] = Field(None, description="Activity codes associated with the grant (e.g. 'R01', 'F32')")
     funding_mechanisms: Optional[List[FundingMechanism]] = Field(None, description="Funding mechanism categories (e.g. ['RP', 'RC'])")
+    award_types: Optional[List[ApplicationType]] = Field(None, description="Application type codes to filter by (e.g. ['1', '2'] for new and competing continuation)")
 
     def to_api_criteria(self):
         """Convert to API criteria format"""
@@ -381,7 +394,9 @@ class SearchParams(BaseModel):
             criteria["activity_codes"] = self.activity_codes
         if self.funding_mechanisms:
             criteria["funding_mechanisms"] = [a.value if hasattr(a, 'value') else a for a in self.funding_mechanisms]
-        
+        if self.award_types:
+            criteria["award_types"] = [a.value if hasattr(a, 'value') else a for a in self.award_types]
+
         return criteria
     
 
