@@ -310,13 +310,21 @@ class IncludeField(str, Enum):
     PROJECT_DETAIL_URL = "ProjectDetailUrl"
 
 
+class POName(BaseModel):
+    """Program Officer name search criteria. All fields are wildcard-enabled partial match."""
+    any_name: Optional[str] = Field(None, description="Search across all name fields (first, last, full name)")
+    first_name: Optional[str] = Field(None, description="Program Officer first name")
+    last_name: Optional[str] = Field(None, description="Program Officer last name")
+
+
 class SearchParams(BaseModel):
-    # optional filters  
+    # optional filters
     advanced_text_search: Optional[AdvancedTextSearch] = Field(None, description="text search string and search parameters")
     years: Optional[List[int]] = Field(None, description="List of fiscal years where projects are active (e.g. [2023, 2024])")
     agencies: Optional[List[NIHAgency]] = Field([NIHAgency.NIH], description="the agency providing funding for the grant")
     organizations: Optional[List[str]] = Field(None, description="List of organization names who received funding (e.g. ['Johns Hopkins University'])")
     pi_name: Optional[str] = Field(None, description="Name of the grant's principal investigator (e.g. 'Allyson Sgro')")
+    po_names: Optional[List[POName]] = Field(None, description="List of program officer name criteria to filter by (e.g. [{'any_name': 'Smith'}])")
     project_nums: Optional[List[ProjectNum]] = Field(None, description="Unique project identifier(s) assigned by NIH RePORTER (e.g. '1F32AG052995-01A1')")
     org_states: Optional[List[StateCode]] = Field(None, description="Organization state")
     opportunity_numbers: Optional[List[str]] = Field(None, description="Funding opportunity number(s) associated with the grant (e.g. 'PAR-21-293')")
@@ -358,6 +366,11 @@ class SearchParams(BaseModel):
             criteria["org_names"] = self.organizations
         if self.pi_name:
             criteria["pi_names"] = [{"any_name": self.pi_name}]
+        if self.po_names:
+            criteria["po_names"] = [
+                {k: v for k, v in po.model_dump().items() if v is not None}
+                for po in self.po_names
+            ]
         if self.project_nums:
             criteria["project_nums"] = [a.project_num for a in self.project_nums]
         if self.org_states:
