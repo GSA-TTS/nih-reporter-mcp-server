@@ -16,7 +16,7 @@ def register_tools(mcp):
         retrieving detailed results.
 
         Args:
-            search_params (SearchParams): Search parameters including search term, years, agencies, organizations, and pi_name.
+            search_params (SearchParams): Search parameters including search term, years, agencies, organizations, pi_name, po_names, and award_types.
 
         Returns:
             dict: API response containing:
@@ -78,7 +78,7 @@ def register_tools(mcp):
         Note: This may be slower for large result sets as it pages through all results.
 
         Args:
-            search_params (SearchParams): Search parameters including search term, years, agencies, organizations, and pi_name.
+            search_params (SearchParams): Search parameters including search term, years, agencies, organizations, pi_name, po_names, and award_types.
 
         Returns:
             dict: API response containing complete statistics:
@@ -137,8 +137,8 @@ def register_tools(mcp):
         the tool will indicate this and you can help the user refine their search.
         
         Args:
-            search_params (SearchParams): Search parameters including search term, years, agencies, organizations, and pi_name.
-        
+            search_params (SearchParams): Search parameters including search term, years, agencies, organizations, pi_name, po_names, and award_types.
+
         Returns:
             dict: API response containing:
             - total_projects: Total number of matching projects in database

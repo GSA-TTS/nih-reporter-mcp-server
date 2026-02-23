@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field, field_validator
 from enum import Enum 
-from typing import Optional, List, Union
+from typing import Optional, List
 
 class NIHAgency(Enum): 
     CLC = "CLC"
@@ -111,9 +111,13 @@ class AdvancedTextSearch(BaseModel):
         default=SearchOperator.AND,
         description="How to combine multiple search terms (defaults to AND)"
     )
-    search_field: Union[SearchField, List[SearchField]] = Field(
-        default=[SearchField.PROJECT_TITLE,SearchField.ABSTRACT,SearchField.TERMS],
-        description="Single field or list of fields to search"
+    search_field: List[SearchField] = Field(
+        default=[SearchField.PROJECT_TITLE, SearchField.ABSTRACT, SearchField.TERMS],
+        description=(
+            "One or more fields to search within. Choose any combination of: "
+            "'projecttitle' (project title), 'abstract' (project abstract), "
+            "'terms' (indexed NIH scientific terms). Defaults to all three."
+        )
     )
     search_text: str = Field(
         ..., 
@@ -310,18 +314,39 @@ class IncludeField(str, Enum):
     PROJECT_DETAIL_URL = "ProjectDetailUrl"
 
 
+class ApplicationType(str, Enum):
+    """Single-digit code identifying the type of NIH grant application."""
+    NEW = "1"
+    COMPETING_CONTINUATION = "2"
+    SUPPLEMENTAL = "3"
+    COMPETING_EXTENSION = "4C"
+    NONCOMPETING_EXTENSION = "4N"
+    NONCOMPETING_CONTINUATION = "5"
+    CHANGE_OF_INSTITUTION = "7"
+    CHANGE_OF_DIVISION = "9"
+
+
+class POName(BaseModel):
+    """Program Officer name search criteria. All fields are wildcard-enabled partial match."""
+    any_name: Optional[str] = Field(None, description="Search across all name fields (first, last, full name)")
+    first_name: Optional[str] = Field(None, description="Program Officer first name")
+    last_name: Optional[str] = Field(None, description="Program Officer last name")
+
+
 class SearchParams(BaseModel):
-    # optional filters  
+    # optional filters
     advanced_text_search: Optional[AdvancedTextSearch] = Field(None, description="text search string and search parameters")
     years: Optional[List[int]] = Field(None, description="List of fiscal years where projects are active (e.g. [2023, 2024])")
     agencies: Optional[List[NIHAgency]] = Field([NIHAgency.NIH], description="the agency providing funding for the grant")
     organizations: Optional[List[str]] = Field(None, description="List of organization names who received funding (e.g. ['Johns Hopkins University'])")
     pi_name: Optional[str] = Field(None, description="Name of the grant's principal investigator (e.g. 'Allyson Sgro')")
+    po_names: Optional[List[POName]] = Field(None, description="List of program officer name criteria to filter by (e.g. [{'any_name': 'Smith'}])")
     project_nums: Optional[List[ProjectNum]] = Field(None, description="Unique project identifier(s) assigned by NIH RePORTER (e.g. '1F32AG052995-01A1')")
     org_states: Optional[List[StateCode]] = Field(None, description="Organization state")
     opportunity_numbers: Optional[List[str]] = Field(None, description="Funding opportunity number(s) associated with the grant (e.g. 'PAR-21-293')")
     activity_codes: Optional[List[str]] = Field(None, description="Activity codes associated with the grant (e.g. 'R01', 'F32')")
     funding_mechanisms: Optional[List[FundingMechanism]] = Field(None, description="Funding mechanism categories (e.g. ['RP', 'RC'])")
+    award_types: Optional[List[ApplicationType]] = Field(None, description="Application type codes to filter by (e.g. ['1', '2'] for new and competing continuation)")
 
     def to_api_criteria(self):
         """Convert to API criteria format"""
@@ -358,6 +383,11 @@ class SearchParams(BaseModel):
             criteria["org_names"] = self.organizations
         if self.pi_name:
             criteria["pi_names"] = [{"any_name": self.pi_name}]
+        if self.po_names:
+            criteria["po_names"] = [
+                {k: v for k, v in po.model_dump().items() if v is not None}
+                for po in self.po_names
+            ]
         if self.project_nums:
             criteria["project_nums"] = [a.project_num for a in self.project_nums]
         if self.org_states:
@@ -368,7 +398,9 @@ class SearchParams(BaseModel):
             criteria["activity_codes"] = self.activity_codes
         if self.funding_mechanisms:
             criteria["funding_mechanisms"] = [a.value if hasattr(a, 'value') else a for a in self.funding_mechanisms]
-        
+        if self.award_types:
+            criteria["award_types"] = [a.value if hasattr(a, 'value') else a for a in self.award_types]
+
         return criteria
     
 
