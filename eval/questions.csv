@@ -4,3 +4,22 @@ question,expected_answer,eval_type
 "How many R01 grants were funded by NCI in fiscal year 2023?",4084,numeric
 "Who is the principal investigator for a 2P20GM135004-06A1?","Sharmila Nair",string
 "How many NIH grants did Purdue University receive in 2019?",176,numeric
+"How much active funding does NICHD currently have?",2014000000,numeric
+"How many active awards does NICHD currently have?",3669,numeric
+"How many active projects does NICHD currently have?",3407,numeric
+"How many investigators does NICHD currently support?",3856,numeric
+"How much of NICHD's funding goes to research hospitals?",200000000,numeric
+"How many NICHD awards go to research hospitals?",349,numeric
+"How many NICHD projects are at research hospitals?",320,numeric
+"How much does NICHD spend on training?",85800000,numeric
+"How many training awards does NICHD have?",583,numeric
+"How many training projects does NICHD fund?",578,numeric
+"How much does NICHD spend on research centers?",134000000,numeric
+"How many awards to research centers has NICHD funded?",89,numeric
+"How many projects at research centers for NICHD have?",76,numeric
+"How much does NICHD spend on pediatric research?",900000000,numeric
+"How much did NICHD spend on developmental biology research between 2020 and 2025?",250000000,numeric
+"How much did NICHD spend on developmental biology research in 2017?",200000000,numeric
+"How much does NICHD spend on pharmacology research?",125000000,numeric
+"How much did NICHD spend on pharmacology research in 2019?",100000000,numeric
+"How successful are NICHD's training programs in producing trainees who receive subsequent NIH RPG funding?","around 30% of HD trainees receive subsequent RPGs",llm_judge
