@@ -1,7 +1,20 @@
-import requests 
-import asyncio 
-from reporter.models import SearchParams
-from fastmcp import Context 
+import requests
+import asyncio
+from reporter.models import SearchParams, IncludeField
+from fastmcp import Context
+
+# Maps response field keys (after clean_json) to the IncludeField needed to fetch them.
+# org_name and org_state both come from the Organization include field.
+DIMENSION_FIELDS = {
+    "fiscal_year":       IncludeField.FISCAL_YEAR,
+    "activity_code":     IncludeField.ACTIVITY_CODE,
+    "funding_mechanism": IncludeField.FUNDING_MECHANISM,
+    "agency_ic_admin":   IncludeField.AGENCY_IC_ADMIN,
+    "org_name":          IncludeField.ORGANIZATION,
+    "org_state":         IncludeField.ORGANIZATION,
+    "organization_type": IncludeField.ORGANIZATION_TYPE,
+    "award_type":        IncludeField.AWARD_TYPE,
+}
 
 def clean_json(response):
     """
@@ -148,6 +161,34 @@ async def get_all_responses(search_params:SearchParams, include_fields: list[str
     print(f"Retrieved {len(all_results)} total results")
 
     return all_results
+
+def build_crosstab(all_results, row_field, col_field):
+    """
+    Build a cross-tabulation of grant counts and total funding by any two project fields.
+
+    Args:
+        all_results (dict): API response containing grant data.
+        row_field (str): Response field key to use as rows (e.g. "fiscal_year", "org_state").
+        col_field (str): Response field key to use as columns (e.g. "activity_code", "funding_mechanism").
+
+    Returns:
+        dict: Nested dict of {row: {col: {"count": N, "total_funding": X}}}, sorted by row.
+    """
+    from collections import defaultdict
+
+    crosstab = defaultdict(lambda: defaultdict(lambda: {"count": 0, "total_funding": 0}))
+
+    for r in all_results.get("results", []):
+        if not isinstance(r, dict):
+            continue
+        row = r.get(row_field)
+        col = r.get(col_field)
+        if row and col:
+            crosstab[row][col]["count"] += 1
+            crosstab[row][col]["total_funding"] += r.get("award_amount") or 0
+
+    return {row: dict(cols) for row, cols in sorted(crosstab.items(), key=lambda x: str(x[0]))}
+
 
 def get_project_distributions(all_results):
     """
