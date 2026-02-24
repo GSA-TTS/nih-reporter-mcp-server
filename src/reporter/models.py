@@ -314,6 +314,36 @@ class IncludeField(str, Enum):
     PROJECT_DETAIL_URL = "ProjectDetailUrl"
 
 
+class IncludeFields(BaseModel):
+    """Validates and converts a list of field name strings to IncludeField enum members."""
+    fields: List[IncludeField]
+
+    @field_validator("fields", mode="before")
+    @classmethod
+    def coerce_fields(cls, v):
+        if isinstance(v, str):
+            v = [v]
+        if isinstance(v, list):
+            out = []
+            for f in v:
+                if isinstance(f, IncludeField):
+                    out.append(f)
+                elif isinstance(f, str):
+                    matched = None
+                    for field in IncludeField:
+                        if f.upper() == field.name or f == field.value:
+                            matched = field
+                            break
+                    if matched:
+                        out.append(matched)
+                    else:
+                        out.append(f)
+                else:
+                    out.append(f)
+            return out
+        return v
+
+
 class ApplicationType(str, Enum):
     """Single-digit code identifying the type of NIH grant application."""
     NEW = "1"
