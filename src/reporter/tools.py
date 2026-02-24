@@ -1,6 +1,6 @@
 from typing import List
 from reporter.utils import get_all_responses, get_initial_response, get_project_distributions
-from reporter.models import SearchParams, ProjectNum, IncludeField
+from reporter.models import SearchParams, ProjectNum, IncludeField, IncludeFields
 from fastmcp import Context
 
 def register_tools(mcp):
@@ -203,5 +203,8 @@ def register_tools(mcp):
             project_nums=[ProjectNum(project_num=p) for p in project_ids]
         )
 
+        # Validate and convert include_fields strings to IncludeField enum values
+        fields = IncludeFields(fields=include_fields)
+
         # Call the API
-        return await get_all_responses(search_params, include_fields)
+        return await get_all_responses(search_params, [f.value for f in fields.fields])
