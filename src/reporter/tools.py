@@ -1,5 +1,5 @@
 from typing import List
-from reporter.utils import get_all_responses, get_initial_response, get_project_distributions, get_year_activity_crosstab
+from reporter.utils import get_all_responses, get_initial_response, get_project_distributions, build_crosstab, DIMENSION_FIELDS
 from reporter.models import SearchParams, ProjectNum, IncludeField, IncludeFields
 from fastmcp import Context
 
@@ -210,28 +210,41 @@ def register_tools(mcp):
         return await get_all_responses(search_params, [f.value for f in fields.fields])
 
     @mcp.tool()
-    async def get_activity_by_year(
+    async def get_portfolio_crosstab(
         ctx: Context,
         search_params: SearchParams,
+        row_field: str,
+        col_field: str,
     ):
         """
-        Return a cross-tabulation of grant counts by fiscal year and activity code.
+        Return a cross-tabulation of grant counts and total funding by any two project fields.
 
-        Use this to generate stacked bar charts where the x-axis is fiscal year,
-        the y-axis is number of grants, and each bar is broken down by activity code.
+        Use this to generate stacked bar charts, heatmaps, or tables comparing any two
+        dimensions of the portfolio (e.g. fiscal year x activity code, org state x funding mechanism).
 
         Args:
-            search_params (SearchParams): Search parameters including years, agencies,
-                advanced_text_search, etc. to scope the portfolio.
+            search_params (SearchParams): Search parameters to scope the portfolio.
+            row_field (str): Field to use as rows. Valid options:
+                fiscal_year, activity_code, funding_mechanism, agency_ic_admin,
+                org_name, org_state, organization_type, award_type
+            col_field (str): Field to use as columns. Same valid options as row_field.
 
         Returns:
-            dict: Nested dict of {year: {activity_code: count}}, sorted by year.
+            dict: Nested dict of {row: {col: {"count": N, "total_funding": X}}}, sorted by row.
         """
 
-        include_fields = [
-            IncludeField.FISCAL_YEAR.value,
-            IncludeField.ACTIVITY_CODE.value,
-        ]
+        valid = list(DIMENSION_FIELDS.keys())
+        if row_field not in DIMENSION_FIELDS:
+            raise ValueError(f"Invalid row_field '{row_field}'. Valid options: {valid}")
+        if col_field not in DIMENSION_FIELDS:
+            raise ValueError(f"Invalid col_field '{col_field}'. Valid options: {valid}")
+
+        # Deduplicate include fields (org_name and org_state both map to Organization)
+        include_fields = list({
+            DIMENSION_FIELDS[row_field].value,
+            DIMENSION_FIELDS[col_field].value,
+            IncludeField.AWARD_AMOUNT.value,
+        })
 
         all_results = await get_all_responses(search_params, include_fields)
-        return get_year_activity_crosstab(all_results)
+        return build_crosstab(all_results, row_field, col_field)

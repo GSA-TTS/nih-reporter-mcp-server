@@ -99,55 +99,39 @@ def register_prompts(mcp):
     @mcp.prompt()
     def activity_code_stacked_bar(
         fiscal_years: str,
-        institutes: str = "",
-        search_term: str = "",
+        filters: str = "",
     ) -> str:
         """Plot a stacked bar chart of NIH grant counts by activity code over fiscal years.
 
         Args:
             fiscal_years: Comma-separated fiscal years (e.g., "2020,2021,2022,2023,2024").
-            institutes: Comma-separated NIH institute codes to filter by (e.g., "NCI,NIMHD").
-                Leave empty to search across all institutes.
-            search_term: Optional RCDC term to restrict grants to a research area (e.g., "breast cancer").
+            filters: Natural language description of any additional filters to apply, such as
+                institutes, organizations, PIs, search terms, or activity codes.
+                Examples: "NCI only", "R01 grants on breast cancer", "Johns Hopkins, PI Jane Smith".
                 Leave empty to include all grants.
         """
 
         years_list = [y.strip() for y in fiscal_years.split(",") if y.strip()]
-
-        if institutes:
-            institute_list = [i.strip() for i in institutes.split(",") if i.strip()]
-            institutes_label = institutes
-            agencies_instruction = f"- `agencies`: {institute_list}"
-        else:
-            institutes_label = "all institutes"
-            agencies_instruction = "- (omit `agencies` to search all institutes)"
-
-        if search_term:
-            search_term_label = f'"{search_term}"'
-            search_term_instruction = f"""- `advanced_text_search`:
-  - `search_text`: "{search_term}"
-  - `search_field`: ["terms"]
-  - `operator`: "and\""""
-        else:
-            search_term_label = "all grants"
-            search_term_instruction = "- (omit `advanced_text_search` to include all grants)"
+        filters_section = f"**Filters**: {filters}" if filters else "**Filters**: none"
 
         return f"""Plot a stacked bar chart of NIH grant counts by activity code for each fiscal year.
 
 **Fiscal Years**: {fiscal_years}
-**Institutes**: {institutes_label}
-**Search Term**: {search_term_label}
+{filters_section}
 
 ---
 
 ## Step 1: Fetch the cross-tabulation
 
-Call `get_activity_by_year` once with:
-{agencies_instruction}
+Construct `search_params` from the filters described above, mapping them to the appropriate
+`SearchParams` fields (e.g. `agencies`, `organizations`, `pi_name`, `activity_codes`,
+`advanced_text_search`, etc.), then call `get_portfolio_crosstab` with:
+- `row_field`: "fiscal_year"
+- `col_field`: "activity_code"
 - `years`: [{", ".join(years_list)}]
-{search_term_instruction}
+- Any additional fields derived from the filters
 
-The response is a nested dict of `{{year: {{activity_code: count}}}}` covering all requested years.
+The response is a nested dict of `{{fiscal_year: {{activity_code: {{"count": N, "total_funding": X}}}}}}` covering all requested years.
 
 ---
 
@@ -155,10 +139,10 @@ The response is a nested dict of `{{year: {{activity_code: count}}}}` covering a
 
 Use Python (matplotlib or similar) to produce a stacked bar chart:
 - X-axis: fiscal year
-- Y-axis: number of grants
+- Y-axis: number of grants (`count`) or total funding (`total_funding`) — choose based on context
 - Each bar stacked by activity code
 - Legend identifying each activity code
-- Title: 'NIH Grant Counts by Activity Code ({institutes_label})'
+- Title: 'NIH Grant Counts by Activity Code' or 'NIH Total Funding by Activity Code'
 
 Also display the raw counts in a table with one column per activity code:
 
