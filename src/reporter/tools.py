@@ -1,5 +1,5 @@
 from typing import List
-from reporter.utils import get_all_responses, get_initial_response, get_project_distributions
+from reporter.utils import get_all_responses, get_initial_response, get_project_distributions, get_year_activity_crosstab
 from reporter.models import SearchParams, ProjectNum, IncludeField, IncludeFields
 from fastmcp import Context
 
@@ -208,3 +208,30 @@ def register_tools(mcp):
 
         # Call the API
         return await get_all_responses(search_params, [f.value for f in fields.fields])
+
+    @mcp.tool()
+    async def get_activity_by_year(
+        ctx: Context,
+        search_params: SearchParams,
+    ):
+        """
+        Return a cross-tabulation of grant counts by fiscal year and activity code.
+
+        Use this to generate stacked bar charts where the x-axis is fiscal year,
+        the y-axis is number of grants, and each bar is broken down by activity code.
+
+        Args:
+            search_params (SearchParams): Search parameters including years, agencies,
+                advanced_text_search, etc. to scope the portfolio.
+
+        Returns:
+            dict: Nested dict of {year: {activity_code: count}}, sorted by year.
+        """
+
+        include_fields = [
+            IncludeField.FISCAL_YEAR.value,
+            IncludeField.ACTIVITY_CODE.value,
+        ]
+
+        all_results = await get_all_responses(search_params, include_fields)
+        return get_year_activity_crosstab(all_results)

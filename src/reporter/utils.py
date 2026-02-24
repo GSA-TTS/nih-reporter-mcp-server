@@ -149,6 +149,31 @@ async def get_all_responses(search_params:SearchParams, include_fields: list[str
 
     return all_results
 
+def get_year_activity_crosstab(all_results):
+    """
+    Build a cross-tabulation of grant counts by fiscal year and activity code.
+
+    Args:
+        all_results (dict): API response containing grant data with FiscalYear and ActivityCode fields.
+
+    Returns:
+        dict: Nested dict of {year: {activity_code: count}}, sorted by year.
+    """
+    from collections import defaultdict
+
+    crosstab = defaultdict(lambda: defaultdict(int))
+
+    for r in all_results.get("results", []):
+        if not isinstance(r, dict):
+            continue
+        year = r.get("fiscal_year")
+        code = r.get("activity_code")
+        if year and code:
+            crosstab[year][code] += 1
+
+    return {year: dict(codes) for year, codes in sorted(crosstab.items())}
+
+
 def get_project_distributions(all_results):
     """
     Calculate distributions of project years, institutes, activity codes,

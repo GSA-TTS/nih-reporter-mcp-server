@@ -1,15 +1,5 @@
 def register_prompts(mcp):
 
-    # @mcp.prompt()
-    # def project_content_search() -> str:
-    #     """Use this prompt to answer questions about the content of NIH-funded research projects."""
-
-    #     return f"""Please help me summarize the content of NIH research grants. Follow these steps:
-
-    #         1. First, use the find_project_ids tool to find grants matching the search parameters
-    #         2. Then use the get_project_descriptions tool to get detailed information (including title and abstract)
-    #         3. Use this information to answer the user's question."""
-    
     @mcp.prompt()
     def project_information_search() -> str:
         """Use this prompt to answer questions about the information of NIH-funded research projects."""
@@ -41,115 +31,137 @@ def register_prompts(mcp):
 
     @mcp.prompt()
     def rcdc_term_frequency(
-        institutes: str,
+        rcdc_terms: str,
         fiscal_years: str,
-        categories: str,
-        grant_scope: str = "new_and_continuing",
-        activity_codes: str = "",
+        institutes: str = "",
     ) -> str:
-        """Analyze RCDC term frequency across NIH grants for specified institutes, years, and categories.
+        """Plot the number of NIH grants matching one or more RCDC terms across fiscal years.
 
         Args:
-            institutes: Comma-separated NIH institute codes (e.g., "NIMHD" or "NIMHD,NCI").
-            fiscal_years: Comma-separated fiscal years (e.g., "2022,2023,2024").
-            categories: JSON array of category objects, each with a "name" and "terms" list.
-                Example: [{"name": "Cancer", "terms": ["breast cancer", "ovarian cancer"]},
-                          {"name": "Respiratory Disease", "terms": ["asthma", "respiratory disease"]}]
-            grant_scope: "new_only" for new grants only (award_type 1), or
-                "new_and_continuing" for new and competing continuations (award_types 1 and 2).
-                Defaults to "new_and_continuing".
-            activity_codes: Comma-separated activity codes to restrict analysis
-                (e.g., "R01,R21"). Leave empty to include all activity codes.
+            rcdc_terms: Comma-separated RCDC terms to search for (e.g., "breast cancer,ovarian cancer").
+            fiscal_years: Comma-separated fiscal years (e.g., "2020,2021,2022,2023,2024").
+            institutes: Comma-separated NIH institute codes to filter by (e.g., "NCI,NIMHD").
+                Leave empty to search across all institutes.
         """
 
-        if grant_scope == "new_only":
-            award_types_label = "new grants only"
-            award_types_instruction = 'award_types: ["1"]'
+        terms_list = [t.strip() for t in rcdc_terms.split(",") if t.strip()]
+        years_list = [y.strip() for y in fiscal_years.split(",") if y.strip()]
+
+        if institutes:
+            institute_list = [i.strip() for i in institutes.split(",") if i.strip()]
+            institutes_label = institutes
+            agencies_instruction = f"- `agencies`: {institute_list}"
         else:
-            award_types_label = "new and competing continuation grants"
-            award_types_instruction = 'award_types: ["1", "2"]'
+            institutes_label = "all institutes"
+            agencies_instruction = "- (omit `agencies` to search all institutes)"
 
-        if activity_codes:
-            codes_list = [c.strip() for c in activity_codes.split(",") if c.strip()]
-            codes_formatted = "[" + ", ".join(f'"{c}"' for c in codes_list) + "]"
-            activity_codes_label = activity_codes
-            activity_codes_instruction = f"activity_codes: {codes_formatted}"
+        terms_bullet_list = "\n".join(f'  - "{t}"' for t in terms_list)
+
+        return f"""Plot the number of NIH grants for each RCDC term by fiscal year.
+
+            **RCDC Terms**: {rcdc_terms}
+            **Fiscal Years**: {fiscal_years}
+            **Institutes**: {institutes_label}
+
+            ---
+
+            ## Step 1: Fetch grant counts per term
+
+            For **each term** listed below, call `get_search_summary` with:
+            {agencies_instruction}
+            - `years`: [{", ".join(years_list)}]
+            - `advanced_text_search`:
+            - `search_text`: <the term>
+            - `search_field`: ["terms"]
+            - `operator`: "and"
+
+            Terms to search:
+            {terms_bullet_list}
+
+            Each response includes a `year_distribution` with the grant count per fiscal year for that term.
+
+            ---
+
+            ## Step 2: Plot the results
+
+            Use Python (matplotlib or similar) to produce a line chart with one line per term:
+            - X-axis: fiscal year
+            - Y-axis: number of grants
+            - One labeled line per term
+            - Title: 'NIH Grant Counts by RCDC Term and Fiscal Year ({institutes_label})'
+
+            Also display the raw counts in a table:
+
+            | Fiscal Year | {" | ".join(terms_list)} |
+            |-------------|{"---|" * len(terms_list)}
+            | YYYY        | {"N | " * len(terms_list)}"""
+
+    @mcp.prompt()
+    def activity_code_stacked_bar(
+        fiscal_years: str,
+        institutes: str = "",
+        search_term: str = "",
+    ) -> str:
+        """Plot a stacked bar chart of NIH grant counts by activity code over fiscal years.
+
+        Args:
+            fiscal_years: Comma-separated fiscal years (e.g., "2020,2021,2022,2023,2024").
+            institutes: Comma-separated NIH institute codes to filter by (e.g., "NCI,NIMHD").
+                Leave empty to search across all institutes.
+            search_term: Optional RCDC term to restrict grants to a research area (e.g., "breast cancer").
+                Leave empty to include all grants.
+        """
+
+        years_list = [y.strip() for y in fiscal_years.split(",") if y.strip()]
+
+        if institutes:
+            institute_list = [i.strip() for i in institutes.split(",") if i.strip()]
+            institutes_label = institutes
+            agencies_instruction = f"- `agencies`: {institute_list}"
         else:
-            activity_codes_label = "all"
-            activity_codes_instruction = "(omit activity_codes to include all activity codes)"
+            institutes_label = "all institutes"
+            agencies_instruction = "- (omit `agencies` to search all institutes)"
 
-        return f"""Please perform an RCDC term frequency analysis for NIH grants using these parameters:
-
-**Institutes**: {institutes}
-**Fiscal Years**: {fiscal_years}
-**Grant Scope**: {award_types_label}
-**Activity Codes**: {activity_codes_label}
-**Categories**:
-{categories}
-
----
-
-## Step 1: Establish the Baseline Portfolio Count
-
-Call `search_projects` with:
-- `agencies`: the institute code(s) above as a list (e.g., ["NIMHD"])
-- `years`: the fiscal years above as a list of integers (e.g., [2022, 2023, 2024])
-- `{award_types_instruction}`
-- `{activity_codes_instruction}`
-- No `advanced_text_search`
-
-Record the `total_projects` value — this is your **denominator** for all percentages.
-
----
-
-## Step 2: Count Projects per Term
-
-For **each term** within **each category**, call `search_projects` with the same baseline
-parameters plus:
-- `advanced_text_search`:
-  - `search_text`: the term (e.g., "breast cancer")
-  - `search_field`: ["terms"]  ← searches RCDC/NIH indexed scientific terms specifically
-  - `operator`: "and"
-
-Record the `total_projects` count for each term.
-
----
-
-## Step 3: Get Unduplicated Category Totals
-
-For **each category**, make one additional `search_projects` call combining all of that
-category's terms:
-- `advanced_text_search`:
-  - `search_text`: all terms space-separated (e.g., "breast cancer ovarian cancer")
+        if search_term:
+            search_term_label = f'"{search_term}"'
+            search_term_instruction = f"""- `advanced_text_search`:
+  - `search_text`: "{search_term}"
   - `search_field`: ["terms"]
-  - `operator`: "or"  ← returns projects matching ANY term in the category
+  - `operator`: "and\""""
+        else:
+            search_term_label = "all grants"
+            search_term_instruction = "- (omit `advanced_text_search` to include all grants)"
 
-Record this as the **unduplicated category count** (prevents inflating totals when a single
-project matches multiple terms within the same category).
+        return f"""Plot a stacked bar chart of NIH grant counts by activity code for each fiscal year.
 
----
-
-## Step 4: Present the Results
-
-Display a Markdown table with one row per term and a summary row per category:
-
-| Category | Term | Grant Count | % of Portfolio |
-|----------|------|-------------|----------------|
-| Cancer | breast cancer | N | X% |
-| Cancer | ovarian cancer | N | X% |
-| **Cancer** | ***(all terms, unduplicated)*** | **N** | **X%** |
-| Respiratory Disease | asthma | N | X% |
-| Respiratory Disease | respiratory disease | N | X% |
-| **Respiratory Disease** | ***(all terms, unduplicated)*** | **N** | **X%** |
-
-Include a footer row:
-**Total Portfolio (baseline)**: N grants ({institutes}, FY {fiscal_years}, {award_types_label})
+**Fiscal Years**: {fiscal_years}
+**Institutes**: {institutes_label}
+**Search Term**: {search_term_label}
 
 ---
 
-## Step 5: Summarize Key Takeaways
+## Step 1: Fetch the cross-tabulation
 
-After the table, write **2–3 concise takeaways** from the data. Consider:
-- Which categories or terms show the highest and lowest representation in the portfolio
-- Relative proportions across categories (e.g., "Cancer-related terms account for X% of the portfolio, compared to Y% for Respiratory Disease")
-- Any notable patterns, concentrations, or gaps worth highlighting for portfolio planning"""
+Call `get_activity_by_year` once with:
+{agencies_instruction}
+- `years`: [{", ".join(years_list)}]
+{search_term_instruction}
+
+The response is a nested dict of `{{year: {{activity_code: count}}}}` covering all requested years.
+
+---
+
+## Step 2: Plot the results
+
+Use Python (matplotlib or similar) to produce a stacked bar chart:
+- X-axis: fiscal year
+- Y-axis: number of grants
+- Each bar stacked by activity code
+- Legend identifying each activity code
+- Title: 'NIH Grant Counts by Activity Code ({institutes_label})'
+
+Also display the raw counts in a table with one column per activity code:
+
+| Fiscal Year | R01 | R21 | ... |
+|-------------|-----|-----|-----|
+| YYYY        | N   | N   | ... |"""
