@@ -1,0 +1,17 @@
+# Databricks Apps deployment configuration
+# https://docs.databricks.com/aws/en/dev-tools/databricks-apps/app-runtime
+#
+# Deploy with:
+#   databricks apps deploy <app-name> --source-code-path /path/in/workspace
+#
+# The MCP endpoint is available at:
+#   https://<app-url>/mcp  (Streamable HTTP, stateless)
+#   https://<app-url>/health
+#
+# Databricks automatically injects:
+#   DATABRICKS_APP_PORT      (defaults to 8000)
+#   DATABRICKS_HOST          workspace URL
+#   DATABRICKS_CLIENT_ID     service principal client ID
+#   DATABRICKS_CLIENT_SECRET OAuth secret
+
+command: ["/bin/sh", "-c", "pip install -q . && uvicorn reporter.app:app --host 0.0.0.0 --port ${DATABRICKS_APP_PORT:-8000}"]

@@ -1,7 +1,8 @@
+import os
 from fastmcp import FastMCP
 from reporter.tools import register_tools
 from reporter.prompts import register_prompts
-from starlette.responses import JSONResponse
+from reporter.routes import register_routes
 
 # Initialize FastMCP server
 mcp = FastMCP("reporter")
@@ -12,21 +13,25 @@ register_tools(mcp)
 # Register custom prompts
 register_prompts(mcp)
 
-# Health check endpoint
-@mcp.custom_route("/health", methods=["GET"])
-async def health_check(request):
-    return JSONResponse({"status": "healthy", "service": "mcp-server"})
+# Register custom routes
+register_routes(mcp)
 
-
-# ASGI app for remote deployment (gunicorn/uvicorn imports this)
-# Example: gunicorn reporter.app:app
+# ASGI app for HTTP deployments — imported by uvicorn in all remote environments:
+#   cloud.gov:  Procfile/manifest.yaml  →  uvicorn ... --port $PORT
+#   Databricks: app.yaml               →  uvicorn ... --port $DATABRICKS_APP_PORT
 app = mcp.http_app(stateless_http=True)
 
 
 if __name__ == "__main__":
-    # Running directly: use stdio for local MCP client (Claude Desktop, etc.)
-    # Remote deployments use the ASGI app above via gunicorn/uvicorn
-    mcp.run(transport="stdio")
+    # When run directly, check for a platform port env var.
+    # If found, start an HTTP server (useful for Databricks local testing).
+    # Otherwise fall back to stdio for local MCP clients (Claude Desktop, etc.).
+    port_env = os.getenv("DATABRICKS_APP_PORT") or os.getenv("PORT")
+    if port_env:
+        import uvicorn
+        uvicorn.run(app, host="0.0.0.0", port=int(port_env))
+    else:
+        mcp.run(transport="stdio")
 
 
 
