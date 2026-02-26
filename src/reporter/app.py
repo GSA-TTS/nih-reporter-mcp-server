@@ -2,7 +2,7 @@ import os
 from fastmcp import FastMCP
 from reporter.tools import register_tools
 from reporter.prompts import register_prompts
-from starlette.responses import JSONResponse
+from reporter.routes import register_routes
 
 # Initialize FastMCP server
 mcp = FastMCP("reporter")
@@ -13,11 +13,8 @@ register_tools(mcp)
 # Register custom prompts
 register_prompts(mcp)
 
-# Health check endpoint
-@mcp.custom_route("/health", methods=["GET"])
-async def health_check(request):
-    return JSONResponse({"status": "healthy", "service": "mcp-server"})
-
+# Register custom routes
+register_routes(mcp)
 
 # ASGI app for HTTP deployments — imported by uvicorn in all remote environments:
 #   cloud.gov:  Procfile/manifest.yaml  →  uvicorn ... --port $PORT
